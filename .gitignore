@@ -1,0 +1,21 @@
+# Build
+build/
+.cache/
+hvigor/
+.hvigor/
+
+# Dependencies
+oh_modules/
+
+# IDE
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+local.properties
