@@ -1,26 +1,43 @@
 <div class="container">
-  <text class="title">LoyalCard</text>
 
-  <div class="card" onclick="showLidl">
-    <text class="badge yellow">L</text>
-    <text class="name">Lidl Plus</text>
+  <div if="{{ viewMode === 'list' }}" class="screen">
+    <text class="title">LoyalCard</text>
+    <text class="subtitle">Vernostne karty</text>
+
+    <div class="card" onclick="openLidl">
+      <text class="badge yellow">L</text>
+      <text class="name">Lidl Plus</text>
+    </div>
+
+    <div class="card" onclick="openTesco">
+      <text class="badge blue">T</text>
+      <text class="name">Tesco Clubcard</text>
+    </div>
+
+    <div class="card" onclick="openKaufland">
+      <text class="badge orange">K</text>
+      <text class="name">Kaufland Card</text>
+    </div>
+
+    <div class="card" onclick="openBilla">
+      <text class="badge red">B</text>
+      <text class="name">BILLA Bonus</text>
+    </div>
   </div>
 
-  <div class="card" onclick="showTesco">
-    <text class="badge blue">T</text>
-    <text class="name">Tesco Clubcard</text>
+  <div if="{{ viewMode === 'detail' }}" class="screen detail-screen">
+    <text class="back" onclick="goBack">‹ Spat</text>
+
+    <text class="detail-name">{{ selectedName }}</text>
+    <text class="detail-type">{{ selectedType }}</text>
+
+    <div class="code-box">
+      <text class="barcode-line">||||||||||||||||||||</text>
+      <text class="barcode-line">|||| ||| || |||||</text>
+      <text class="barcode-line">||||||||||||||||||||</text>
+    </div>
+
+    <text class="detail-code">{{ selectedCode }}</text>
   </div>
 
-  <div class="card" onclick="showKaufland">
-    <text class="badge orange">K</text>
-    <text class="name">Kaufland Card</text>
-  </div>
-
-  <div class="card" onclick="showBilla">
-    <text class="badge red">B</text>
-    <text class="name">BILLA Bonus</text>
-  </div>
-
-  <text class="detail-title">{{ currentName }}</text>
-  <text class="detail-code">{{ currentCode }}</text>
 </div>
