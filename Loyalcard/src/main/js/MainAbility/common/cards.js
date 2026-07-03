@@ -33,21 +33,4 @@ const cards = [
   }
 ];
 
-function getCards() {
-  return cards;
-}
-
-function getCardById(id) {
-  for (let index = 0; index < cards.length; index++) {
-    if (cards[index].id === id) {
-      return cards[index];
-    }
-  }
-
-  return null;
-}
-
-export default {
-  getCards: getCards,
-  getCardById: getCardById
-};
+export default cards;

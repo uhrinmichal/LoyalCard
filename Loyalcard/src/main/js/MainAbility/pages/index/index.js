@@ -1,4 +1,4 @@
-import cardRepository from '../../common/cards.js';
+import cards from '../../common/cards.js';
 
 export default {
   data: {
@@ -6,11 +6,17 @@ export default {
     selectedName: '',
     selectedType: '',
     selectedCode: '',
-    cards: cardRepository.getCards()
+    cards: cards
   },
 
   openCard(cardId) {
-    const selectedCard = cardRepository.getCardById(cardId);
+    let selectedCard = null;
+
+    for (let index = 0; index < this.cards.length; index++) {
+      if (this.cards[index].id === cardId) {
+        selectedCard = this.cards[index];
+      }
+    }
 
     if (selectedCard) {
       this.selectedName = selectedCard.name;
