@@ -1,5 +1,6 @@
 import router from '@system.router';
-import cardRepository from '../../common/cards.js';
+import cards from '../../common/cards.js';
+import getCardFormatLabel from '../../common/cardFormats.js';
 
 export default {
   data: {
@@ -10,13 +11,23 @@ export default {
   },
 
   onInit() {
-    const selectedCard = cardRepository.getCardById(this.cardId);
+    let selectedCard = null;
+
+    for (let index = 0; index < cards.length; index++) {
+      if (cards[index].id === this.cardId) {
+        selectedCard = cards[index];
+      }
+    }
 
     if (selectedCard) {
       this.cardName = selectedCard.name;
-      this.cardType = selectedCard.type;
+      this.cardType = this.getFormatLabel(selectedCard.format);
       this.cardCode = selectedCard.code;
     }
+  },
+
+  getFormatLabel(format) {
+    return getCardFormatLabel(format);
   },
 
   goBack() {

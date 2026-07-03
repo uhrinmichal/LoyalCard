@@ -1,4 +1,5 @@
 import cards from '../../common/cards.js';
+import getCardFormatLabel from '../../common/cardFormats.js';
 
 export default {
   data: {
@@ -20,10 +21,14 @@ export default {
 
     if (selectedCard) {
       this.selectedName = selectedCard.name;
-      this.selectedType = selectedCard.type;
+      this.selectedType = this.getFormatLabel(selectedCard.format);
       this.selectedCode = selectedCard.code;
       this.viewMode = 'detail';
     }
+  },
+
+  getFormatLabel(format) {
+    return getCardFormatLabel(format);
   },
 
   openLidl() {
