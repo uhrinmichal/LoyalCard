@@ -1,65 +1,21 @@
-const LEFT_ODD_PATTERNS = [
-  '0001101',
-  '0011001',
-  '0010011',
-  '0111101',
-  '0100011',
-  '0110001',
-  '0101111',
-  '0111011',
-  '0110111',
-  '0001011'
-];
-
-const LEFT_EVEN_PATTERNS = [
-  '0100111',
-  '0110011',
-  '0011011',
-  '0100001',
-  '0011101',
-  '0111001',
-  '0000101',
-  '0010001',
-  '0001001',
-  '0010111'
-];
-
-const RIGHT_PATTERNS = [
-  '1110010',
-  '1100110',
-  '1101100',
-  '1000010',
-  '1011100',
-  '1001110',
-  '1010000',
-  '1000100',
-  '1001000',
-  '1110100'
-];
-
-const LEFT_PARITY_PATTERNS = [
-  'LLLLLL',
-  'LLGLGG',
-  'LLGGLG',
-  'LLGGGL',
-  'LGLLGG',
-  'LGGLLG',
-  'LGGGLL',
-  'LGLGLG',
-  'LGLGGL',
-  'LGGLGL'
-];
-
 function containsOnlyDigits(value) {
-  return /^[0-9]+$/.test(value);
+  for (var index = 0; index < value.length; index++) {
+    var digit = value.charAt(index);
+
+    if (digit < '0' || digit > '9') {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function calculateEan13CheckDigit(firstTwelveDigits) {
-  let sum = 0;
+  var sum = 0;
 
-  for (let index = 0; index < firstTwelveDigits.length; index++) {
-    const digit = Number(firstTwelveDigits.charAt(index));
-    const weight = index % 2 === 0 ? 1 : 3;
+  for (var index = 0; index < firstTwelveDigits.length; index++) {
+    var digit = Number(firstTwelveDigits.charAt(index));
+    var weight = index % 2 === 0 ? 1 : 3;
     sum += digit * weight;
   }
 
@@ -71,18 +27,146 @@ function isEan13Code(code) {
     return false;
   }
 
-  const expectedCheckDigit = calculateEan13CheckDigit(code.substring(0, 12));
-  const actualCheckDigit = code.substring(12, 13);
+  var expectedCheckDigit = calculateEan13CheckDigit(code.substring(0, 12));
+  var actualCheckDigit = code.substring(12, 13);
 
   return actualCheckDigit === expectedCheckDigit;
 }
 
-function getLeftDigitPattern(digit, parity) {
-  if (parity === 'L') {
-    return LEFT_ODD_PATTERNS[digit];
+function getLeftOddPattern(digit) {
+  if (digit === 0) {
+    return '0001101';
+  }
+  if (digit === 1) {
+    return '0011001';
+  }
+  if (digit === 2) {
+    return '0010011';
+  }
+  if (digit === 3) {
+    return '0111101';
+  }
+  if (digit === 4) {
+    return '0100011';
+  }
+  if (digit === 5) {
+    return '0110001';
+  }
+  if (digit === 6) {
+    return '0101111';
+  }
+  if (digit === 7) {
+    return '0111011';
+  }
+  if (digit === 8) {
+    return '0110111';
   }
 
-  return LEFT_EVEN_PATTERNS[digit];
+  return '0001011';
+}
+
+function getLeftEvenPattern(digit) {
+  if (digit === 0) {
+    return '0100111';
+  }
+  if (digit === 1) {
+    return '0110011';
+  }
+  if (digit === 2) {
+    return '0011011';
+  }
+  if (digit === 3) {
+    return '0100001';
+  }
+  if (digit === 4) {
+    return '0011101';
+  }
+  if (digit === 5) {
+    return '0111001';
+  }
+  if (digit === 6) {
+    return '0000101';
+  }
+  if (digit === 7) {
+    return '0010001';
+  }
+  if (digit === 8) {
+    return '0001001';
+  }
+
+  return '0010111';
+}
+
+function getRightPattern(digit) {
+  if (digit === 0) {
+    return '1110010';
+  }
+  if (digit === 1) {
+    return '1100110';
+  }
+  if (digit === 2) {
+    return '1101100';
+  }
+  if (digit === 3) {
+    return '1000010';
+  }
+  if (digit === 4) {
+    return '1011100';
+  }
+  if (digit === 5) {
+    return '1001110';
+  }
+  if (digit === 6) {
+    return '1010000';
+  }
+  if (digit === 7) {
+    return '1000100';
+  }
+  if (digit === 8) {
+    return '1001000';
+  }
+
+  return '1110100';
+}
+
+function getLeftParityPattern(firstDigit) {
+  if (firstDigit === 0) {
+    return 'LLLLLL';
+  }
+  if (firstDigit === 1) {
+    return 'LLGLGG';
+  }
+  if (firstDigit === 2) {
+    return 'LLGGLG';
+  }
+  if (firstDigit === 3) {
+    return 'LLGGGL';
+  }
+  if (firstDigit === 4) {
+    return 'LGLLGG';
+  }
+  if (firstDigit === 5) {
+    return 'LGGLLG';
+  }
+  if (firstDigit === 6) {
+    return 'LGGGLL';
+  }
+  if (firstDigit === 7) {
+    return 'LGLGLG';
+  }
+  if (firstDigit === 8) {
+    return 'LGLGGL';
+  }
+
+  return 'LGGLGL';
+}
+
+function getLeftDigitPattern(digit, parity) {
+  if (parity === 'L') {
+    return getLeftOddPattern(digit);
+  }
+
+  return getLeftEvenPattern(digit);
 }
 
 function encodeEan13(code) {
@@ -90,21 +174,21 @@ function encodeEan13(code) {
     return '';
   }
 
-  let pattern = '101';
-  const firstDigit = Number(code.charAt(0));
-  const leftParityPattern = LEFT_PARITY_PATTERNS[firstDigit];
+  var pattern = '101';
+  var firstDigit = Number(code.charAt(0));
+  var leftParityPattern = getLeftParityPattern(firstDigit);
 
-  for (let index = 1; index <= 6; index++) {
-    const digit = Number(code.charAt(index));
-    const parity = leftParityPattern.charAt(index - 1);
-    pattern += getLeftDigitPattern(digit, parity);
+  for (var index = 1; index <= 6; index++) {
+    var leftDigit = Number(code.charAt(index));
+    var parity = leftParityPattern.charAt(index - 1);
+    pattern += getLeftDigitPattern(leftDigit, parity);
   }
 
   pattern += '01010';
 
-  for (let index = 7; index <= 12; index++) {
-    const digit = Number(code.charAt(index));
-    pattern += RIGHT_PATTERNS[digit];
+  for (var rightIndex = 7; rightIndex <= 12; rightIndex++) {
+    var rightDigit = Number(code.charAt(rightIndex));
+    pattern += getRightPattern(rightDigit);
   }
 
   pattern += '101';
@@ -112,8 +196,4 @@ function encodeEan13(code) {
   return pattern;
 }
 
-export default {
-  calculateCheckDigit: calculateEan13CheckDigit,
-  encode: encodeEan13,
-  isValid: isEan13Code
-};
+export default encodeEan13;
