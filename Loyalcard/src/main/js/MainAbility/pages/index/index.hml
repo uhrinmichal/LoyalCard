@@ -37,5 +37,6 @@
     </div>
 
     <text class="detail-code">{{ selectedCode }}</text>
+    <text if="{{ selectedCodeWarning !== '' }}" class="warning">{{ selectedCodeWarning }}</text>
   </div>
 </div>

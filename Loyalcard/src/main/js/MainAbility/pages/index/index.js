@@ -1,5 +1,6 @@
 import cards from '../../common/cards.js';
 import getCardFormatLabel from '../../common/cardFormats.js';
+import ean13 from '../../common/ean13.js';
 
 export default {
   data: {
@@ -7,6 +8,7 @@ export default {
     selectedName: '',
     selectedType: '',
     selectedCode: '',
+    selectedCodeWarning: '',
     cards: cards
   },
 
@@ -23,12 +25,21 @@ export default {
       this.selectedName = selectedCard.name;
       this.selectedType = this.getFormatLabel(selectedCard.format);
       this.selectedCode = selectedCard.code;
+      this.selectedCodeWarning = this.getCodeWarning(selectedCard);
       this.viewMode = 'detail';
     }
   },
 
   getFormatLabel(format) {
     return getCardFormatLabel(format);
+  },
+
+  getCodeWarning(card) {
+    if (card.format === 'ean13' && !ean13.isValid(card.code)) {
+      return 'Invalid barcode';
+    }
+
+    return '';
   },
 
   openLidl() {
@@ -52,5 +63,6 @@ export default {
     this.selectedName = '';
     this.selectedType = '';
     this.selectedCode = '';
+    this.selectedCodeWarning = '';
   }
 }

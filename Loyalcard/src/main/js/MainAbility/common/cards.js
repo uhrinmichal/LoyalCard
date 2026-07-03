@@ -11,7 +11,7 @@ const cards = [
     id: 'tesco',
     name: 'Tesco Clubcard',
     format: 'ean13',
-    code: '9876543210123',
+    code: '5901234123457',
     badge: 'T',
     badgeColor: 'blue'
   },
@@ -27,7 +27,7 @@ const cards = [
     id: 'billa',
     name: 'BILLA Bonus',
     format: 'ean13',
-    code: '444333222111',
+    code: '4006381333931',
     badge: 'B',
     badgeColor: 'red'
   }
