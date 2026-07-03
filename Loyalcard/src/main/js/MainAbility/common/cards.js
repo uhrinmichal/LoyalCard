@@ -1,23 +1,53 @@
-export default [
+const cards = [
   {
-    id: 1,
-    name: "Lidl Plus",
-    type: "EAN13",
-    code: "8588001234567",
-    color: "yellow"
+    id: 'lidl',
+    name: 'Lidl Plus',
+    type: 'QR karta',
+    code: '1234567890123',
+    badge: 'L',
+    badgeColor: 'yellow'
   },
   {
-    id: 2,
-    name: "Tesco Clubcard",
-    type: "EAN13",
-    code: "9799500025434644",
-    color: "blue"
+    id: 'tesco',
+    name: 'Tesco Clubcard',
+    type: 'Ciarovy kod',
+    code: '9876543210123',
+    badge: 'T',
+    badgeColor: 'blue'
   },
   {
-    id: 3,
-    name: "Kaufland Card",
-    type: "QR",
-    code: "6002110627203614",
-    color: "orange"
+    id: 'kaufland',
+    name: 'Kaufland Card',
+    type: 'QR karta',
+    code: '555666777888',
+    badge: 'K',
+    badgeColor: 'orange'
+  },
+  {
+    id: 'billa',
+    name: 'BILLA Bonus',
+    type: 'Ciarovy kod',
+    code: '444333222111',
+    badge: 'B',
+    badgeColor: 'red'
   }
-]
+];
+
+function getCards() {
+  return cards;
+}
+
+function getCardById(id) {
+  for (let index = 0; index < cards.length; index++) {
+    if (cards[index].id === id) {
+      return cards[index];
+    }
+  }
+
+  return null;
+}
+
+export default {
+  getCards: getCards,
+  getCardById: getCardById
+};

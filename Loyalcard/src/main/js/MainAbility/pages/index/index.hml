@@ -1,6 +1,5 @@
 <div class="container">
-
-  <div if="{{ viewMode === 'list' }}" class="screen">
+  <div class="screen">
     <text class="title">LoyalCard</text>
     <text class="subtitle">Vernostne karty</text>
 
@@ -24,20 +23,4 @@
       <text class="name">BILLA Bonus</text>
     </div>
   </div>
-
-  <div if="{{ viewMode === 'detail' }}" class="screen detail-screen">
-    <text class="back" onclick="goBack">‹ Spat</text>
-
-    <text class="detail-name">{{ selectedName }}</text>
-    <text class="detail-type">{{ selectedType }}</text>
-
-    <div class="code-box">
-      <text class="barcode-line">||||||||||||||||||||</text>
-      <text class="barcode-line">|||| ||| || |||||</text>
-      <text class="barcode-line">||||||||||||||||||||</text>
-    </div>
-
-    <text class="detail-code">{{ selectedCode }}</text>
-  </div>
-
 </div>

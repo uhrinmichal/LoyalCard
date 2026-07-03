@@ -1,7 +1,8 @@
 <div class="container">
-  <text class="back" onclick="goBack">‹ Späť</text>
+  <text class="back" onclick="goBack">Spat</text>
 
-  <text class="title">Lidl Plus</text>
+  <text class="title">{{ cardName }}</text>
+  <text class="type">{{ cardType }}</text>
 
   <div class="barcode">
     <text class="barcode-text">||||||||||||||||||||||||</text>
@@ -9,5 +10,5 @@
     <text class="barcode-text">||||||||||||||||||||||||</text>
   </div>
 
-  <text class="number">1234567890123</text>
+  <text class="number">{{ cardCode }}</text>
 </div>
