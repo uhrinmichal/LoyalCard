@@ -1,26 +1,56 @@
+import cards from '../../common/cards.js';
+import getCardFormatLabel from '../../common/cardFormats.js';
+
 export default {
   data: {
-    currentName: '',
-    currentCode: ''
+    viewMode: 'list',
+    selectedName: '',
+    selectedType: '',
+    selectedCode: '',
+    cards: cards
   },
 
-  showLidl() {
-    this.currentName = 'Lidl Plus';
-    this.currentCode = '1234567890123';
+  openCard(cardId) {
+    let selectedCard = null;
+
+    for (let index = 0; index < this.cards.length; index++) {
+      if (this.cards[index].id === cardId) {
+        selectedCard = this.cards[index];
+      }
+    }
+
+    if (selectedCard) {
+      this.selectedName = selectedCard.name;
+      this.selectedType = this.getFormatLabel(selectedCard.format);
+      this.selectedCode = selectedCard.code;
+      this.viewMode = 'detail';
+    }
   },
 
-  showTesco() {
-    this.currentName = 'Tesco Clubcard';
-    this.currentCode = '9876543210123';
+  getFormatLabel(format) {
+    return getCardFormatLabel(format);
   },
 
-  showKaufland() {
-    this.currentName = 'Kaufland Card';
-    this.currentCode = '555666777888';
+  openLidl() {
+    this.openCard('lidl');
   },
 
-  showBilla() {
-    this.currentName = 'BILLA Bonus';
-    this.currentCode = '444333222111';
+  openTesco() {
+    this.openCard('tesco');
+  },
+
+  openKaufland() {
+    this.openCard('kaufland');
+  },
+
+  openBilla() {
+    this.openCard('billa');
+  },
+
+  goBack() {
+    this.viewMode = 'list';
+    this.selectedName = '';
+    this.selectedType = '';
+    this.selectedCode = '';
   }
 }
