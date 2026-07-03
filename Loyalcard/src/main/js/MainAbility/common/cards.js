@@ -2,7 +2,7 @@ const cards = [
   {
     id: 'lidl',
     name: 'Lidl Plus',
-    type: 'QR karta',
+    type: 'QR card',
     code: '1234567890123',
     badge: 'L',
     badgeColor: 'yellow'
@@ -10,7 +10,7 @@ const cards = [
   {
     id: 'tesco',
     name: 'Tesco Clubcard',
-    type: 'Ciarovy kod',
+    type: 'Barcode',
     code: '9876543210123',
     badge: 'T',
     badgeColor: 'blue'
@@ -18,7 +18,7 @@ const cards = [
   {
     id: 'kaufland',
     name: 'Kaufland Card',
-    type: 'QR karta',
+    type: 'QR card',
     code: '555666777888',
     badge: 'K',
     badgeColor: 'orange'
@@ -26,7 +26,7 @@ const cards = [
   {
     id: 'billa',
     name: 'BILLA Bonus',
-    type: 'Ciarovy kod',
+    type: 'Barcode',
     code: '444333222111',
     badge: 'B',
     badgeColor: 'red'

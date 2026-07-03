@@ -1,5 +1,5 @@
 <div class="container">
-  <text class="back" onclick="goBack">Spat</text>
+  <text class="back" onclick="goBack">Back</text>
 
   <text class="title">{{ cardName }}</text>
   <text class="type">{{ cardType }}</text>

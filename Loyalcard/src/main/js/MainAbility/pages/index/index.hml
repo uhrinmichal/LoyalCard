@@ -1,7 +1,7 @@
 <div class="container">
   <div if="{{ viewMode === 'list' }}" class="screen">
     <text class="title">LoyalCard</text>
-    <text class="subtitle">Vernostne karty</text>
+    <text class="subtitle">Loyalty Cards</text>
 
     <div class="card" onclick="openLidl">
       <text class="badge yellow">L</text>
@@ -25,7 +25,7 @@
   </div>
 
   <div if="{{ viewMode === 'detail' }}" class="screen detail-screen">
-    <text class="back" onclick="goBack">Spat</text>
+    <text class="back" onclick="goBack">Back</text>
 
     <text class="detail-name">{{ selectedName }}</text>
     <text class="detail-type">{{ selectedType }}</text>
