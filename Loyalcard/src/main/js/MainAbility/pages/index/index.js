@@ -1,18 +1,23 @@
-import router from '@system.router';
 import cardRepository from '../../common/cards.js';
 
 export default {
   data: {
+    viewMode: 'list',
+    selectedName: '',
+    selectedType: '',
+    selectedCode: '',
     cards: cardRepository.getCards()
   },
 
   openCard(cardId) {
-    router.push({
-      uri: 'pages/detail/detail',
-      params: {
-        cardId: cardId
-      }
-    });
+    const selectedCard = cardRepository.getCardById(cardId);
+
+    if (selectedCard) {
+      this.selectedName = selectedCard.name;
+      this.selectedType = selectedCard.type;
+      this.selectedCode = selectedCard.code;
+      this.viewMode = 'detail';
+    }
   },
 
   openLidl() {
@@ -29,5 +34,12 @@ export default {
 
   openBilla() {
     this.openCard('billa');
+  },
+
+  goBack() {
+    this.viewMode = 'list';
+    this.selectedName = '';
+    this.selectedType = '';
+    this.selectedCode = '';
   }
 }
