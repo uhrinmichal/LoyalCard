@@ -1,5 +1,6 @@
 import router from '@system.router';
 import cards from '../../common/cards.js';
+import createBarcodeBars from '../../common/barcodeRenderer.js';
 import getCardFormatLabel from '../../common/cardFormats.js';
 
 export default {
@@ -7,7 +8,10 @@ export default {
     cardId: '',
     cardName: '',
     cardType: '',
-    cardCode: ''
+    cardCode: '',
+    codePlaceholder: 'CODE',
+    hasBarcode: false,
+    barcodeBars: []
   },
 
   onInit() {
@@ -23,6 +27,9 @@ export default {
       this.cardName = selectedCard.name;
       this.cardType = this.getFormatLabel(selectedCard.format);
       this.cardCode = selectedCard.code;
+      this.codePlaceholder = selectedCard.format === 'qr' ? 'QR' : 'CODE';
+      this.barcodeBars = createBarcodeBars(selectedCard.format, selectedCard.code);
+      this.hasBarcode = this.barcodeBars.length > 0;
     }
   },
 

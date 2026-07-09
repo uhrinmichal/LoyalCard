@@ -31,9 +31,15 @@
     <text class="detail-type">{{ selectedType }}</text>
 
     <div class="code-box">
-      <text class="barcode-line">||||||||||||||||||||</text>
-      <text class="barcode-line">|||| ||| || |||||</text>
-      <text class="barcode-line">||||||||||||||||||||</text>
+      <div if="{{ hasBarcode }}" class="barcode-render">
+        <div for="{{ barcodeBars }}" tid="id" class="barcode-module-slot">
+          <div if="{{ $item.type === 'darkGuard' }}" class="barcode-module-dark-guard"></div>
+          <div if="{{ $item.type === 'dark' }}" class="barcode-module-dark"></div>
+          <div if="{{ $item.type === 'lightGuard' }}" class="barcode-module-light-guard"></div>
+          <div if="{{ $item.type === 'light' }}" class="barcode-module-light"></div>
+        </div>
+      </div>
+      <text if="{{ !hasBarcode }}" class="code-placeholder">{{ codePlaceholder }}</text>
     </div>
 
     <text class="detail-code">{{ selectedCode }}</text>

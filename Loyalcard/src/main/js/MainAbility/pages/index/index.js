@@ -1,4 +1,5 @@
 import cards from '../../common/cards.js';
+import createBarcodeBars from '../../common/barcodeRenderer.js';
 import getCardFormatLabel from '../../common/cardFormats.js';
 
 export default {
@@ -7,6 +8,9 @@ export default {
     selectedName: '',
     selectedType: '',
     selectedCode: '',
+    codePlaceholder: 'CODE',
+    hasBarcode: false,
+    barcodeBars: [],
     cards: cards
   },
 
@@ -23,6 +27,9 @@ export default {
       this.selectedName = selectedCard.name;
       this.selectedType = this.getFormatLabel(selectedCard.format);
       this.selectedCode = selectedCard.code;
+      this.codePlaceholder = selectedCard.format === 'qr' ? 'QR' : 'CODE';
+      this.barcodeBars = createBarcodeBars(selectedCard.format, selectedCard.code);
+      this.hasBarcode = this.barcodeBars.length > 0;
       this.viewMode = 'detail';
     }
   },
@@ -52,5 +59,8 @@ export default {
     this.selectedName = '';
     this.selectedType = '';
     this.selectedCode = '';
+    this.codePlaceholder = 'CODE';
+    this.hasBarcode = false;
+    this.barcodeBars = [];
   }
 }

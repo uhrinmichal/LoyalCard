@@ -85,14 +85,52 @@
   height: 140px;
   background-color: #ffffff;
   border-radius: 12px;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 
-.barcode-line {
+.barcode-render {
+  width: 285px;
+  height: 112px;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.barcode-module-slot {
+  width: 3px;
+  height: 112px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.barcode-module-dark,
+.barcode-module-light {
+  width: 3px;
+  height: 96px;
+}
+
+.barcode-module-dark-guard,
+.barcode-module-light-guard {
+  width: 3px;
+  height: 112px;
+}
+
+.barcode-module-dark,
+.barcode-module-dark-guard {
+  background-color: #000000;
+}
+
+.barcode-module-light,
+.barcode-module-light-guard {
+  background-color: #ffffff;
+}
+
+.code-placeholder {
   color: #000000;
-  font-size: 26px;
+  font-size: 34px;
 }
 
 .detail-code {
