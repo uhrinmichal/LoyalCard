@@ -11,46 +11,46 @@
   height: 100%;
   flex-direction: column;
   align-items: center;
-  padding-top: 52px;
+  padding-top: 38px;
 }
 
 .title {
   color: #ffffff;
-  font-size: 24px;
-  margin-bottom: 2px;
+  font-size: 22px;
+  margin-bottom: 0;
 }
 
 .subtitle {
   color: #8e8e93;
-  font-size: 14px;
-  margin-bottom: 14px;
+  font-size: 12px;
+  margin-bottom: 10px;
 }
 
 .card {
-  width: 320px;
-  height: 58px;
+  width: 288px;
+  height: 48px;
   background-color: #1c1c1e;
-  border-radius: 16px;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
   flex-direction: row;
   align-items: center;
-  padding-left: 16px;
+  padding-left: 14px;
 }
 
 .badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
   color: #ffffff;
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
-  margin-right: 14px;
+  margin-right: 10px;
 }
 
 .name {
   color: #ffffff;
-  font-size: 18px;
-  margin-left: 12px;
+  font-size: 16px;
+  margin-left: 8px;
 }
 
 .yellow { background-color: #f5c400; }
@@ -59,32 +59,32 @@
 .red { background-color: #ff3b30; }
 
 .detail-screen {
-  padding-top: 42px;
+  padding-top: 36px;
 }
 
 .back {
   color: #8e8e93;
-  font-size: 17px;
-  margin-bottom: 18px;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .detail-name {
   color: #ffffff;
-  font-size: 26px;
-  margin-bottom: 4px;
+  font-size: 22px;
+  margin-bottom: 2px;
 }
 
 .detail-type {
   color: #8e8e93;
-  font-size: 15px;
-  margin-bottom: 18px;
+  font-size: 13px;
+  margin-bottom: 12px;
 }
 
 .code-box {
-  width: 320px;
-  height: 160px;
+  width: 292px;
+  height: 150px;
   background-color: #ffffff;
-  border-radius: 12px;
+  border-radius: 8px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -92,7 +92,7 @@
 
 .barcode-render {
   width: 285px;
-  height: 112px;
+  height: 100px;
   flex-direction: row;
   align-items: flex-end;
   justify-content: center;
@@ -100,7 +100,7 @@
 
 .barcode-module-slot {
   width: 3px;
-  height: 112px;
+  height: 100px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
@@ -109,13 +109,13 @@
 .barcode-module-dark,
 .barcode-module-light {
   width: 3px;
-  height: 96px;
+  height: 84px;
 }
 
 .barcode-module-dark-guard,
 .barcode-module-light-guard {
   width: 3px;
-  height: 112px;
+  height: 100px;
 }
 
 .barcode-module-dark,
@@ -129,17 +129,17 @@
 }
 
 .qr-image {
-  width: 145px;
-  height: 145px;
+  width: 140px;
+  height: 140px;
 }
 
 .code-placeholder {
   color: #000000;
-  font-size: 34px;
+  font-size: 30px;
 }
 
 .detail-code {
   color: #ffffff;
-  font-size: 18px;
-  margin-top: 16px;
+  font-size: 15px;
+  margin-top: 12px;
 }
