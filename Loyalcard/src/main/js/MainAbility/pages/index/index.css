@@ -60,8 +60,8 @@
 .red { background-color: #ff3b30; }
 
 .detail-screen {
-  justify-content: flex-start;
-  padding-top: 36px;
+  justify-content: center;
+  padding-top: 0;
 }
 
 .back {

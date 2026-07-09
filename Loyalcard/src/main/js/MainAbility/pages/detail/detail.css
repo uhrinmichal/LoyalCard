@@ -4,7 +4,8 @@
   background-color: #000000;
   flex-direction: column;
   align-items: center;
-  padding-top: 36px;
+  justify-content: center;
+  padding-top: 0;
 }
 
 .back {
