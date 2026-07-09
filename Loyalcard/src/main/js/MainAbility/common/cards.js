@@ -4,6 +4,7 @@ const cards = [
     name: 'Lidl Plus',
     format: 'qr',
     code: '1234567890123',
+    qrAsset: '/common/qr_lidl.png',
     badge: 'L',
     badgeColor: 'yellow'
   },
@@ -20,6 +21,7 @@ const cards = [
     name: 'Kaufland Card',
     format: 'qr',
     code: '555666777888',
+    qrAsset: '/common/qr_kaufland.png',
     badge: 'K',
     badgeColor: 'orange'
   },

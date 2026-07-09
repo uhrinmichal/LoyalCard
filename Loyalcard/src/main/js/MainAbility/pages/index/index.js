@@ -1,4 +1,5 @@
 import cards from '../../common/cards.js';
+import cardLookup from '../../common/cardLookup.js';
 import createBarcodeBars from '../../common/barcodeRenderer.js';
 import getCardFormatLabel from '../../common/cardFormats.js';
 
@@ -12,17 +13,12 @@ export default {
     codePlaceholder: 'CODE',
     hasBarcode: false,
     barcodeBars: [],
+    hasQrImage: false,
     cards: cards
   },
 
   openCard(cardId) {
-    let selectedCard = null;
-
-    for (let index = 0; index < this.cards.length; index++) {
-      if (this.cards[index].id === cardId) {
-        selectedCard = this.cards[index];
-      }
-    }
+    let selectedCard = cardLookup.findCardById(cardId);
 
     if (selectedCard) {
       this.selectedName = selectedCard.name;
@@ -32,6 +28,7 @@ export default {
       this.codePlaceholder = selectedCard.format === 'qr' ? 'QR' : 'CODE';
       this.barcodeBars = createBarcodeBars(selectedCard.format, selectedCard.code);
       this.hasBarcode = this.barcodeBars.length > 0;
+      this.hasQrImage = cardLookup.hasQrAsset(selectedCard);
       this.viewMode = 'detail';
     }
   },
@@ -65,5 +62,6 @@ export default {
     this.codePlaceholder = 'CODE';
     this.hasBarcode = false;
     this.barcodeBars = [];
+    this.hasQrImage = false;
   }
 }

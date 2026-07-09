@@ -39,9 +39,9 @@
           <div if="{{ $item.type === 'light' }}" class="barcode-module-light"></div>
         </div>
       </div>
-      <image if="{{ selectedId === 'lidl' }}" class="qr-image" src="/common/qr_lidl.png"></image>
-      <image if="{{ selectedId === 'kaufland' }}" class="qr-image" src="/common/qr_kaufland.png"></image>
-      <text if="{{ !hasBarcode && selectedId !== 'lidl' && selectedId !== 'kaufland' }}" class="code-placeholder">{{ codePlaceholder }}</text>
+      <image if="{{ selectedId === 'lidl' && hasQrImage }}" class="qr-image" src="/common/qr_lidl.png"></image>
+      <image if="{{ selectedId === 'kaufland' && hasQrImage }}" class="qr-image" src="/common/qr_kaufland.png"></image>
+      <text if="{{ !hasBarcode && !hasQrImage }}" class="code-placeholder">{{ codePlaceholder }}</text>
     </div>
 
     <text class="detail-code">{{ selectedCode }}</text>
