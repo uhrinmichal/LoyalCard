@@ -8,6 +8,7 @@ export default {
     selectedName: '',
     selectedType: '',
     selectedCode: '',
+    selectedId: '',
     codePlaceholder: 'CODE',
     hasBarcode: false,
     barcodeBars: [],
@@ -27,6 +28,7 @@ export default {
       this.selectedName = selectedCard.name;
       this.selectedType = this.getFormatLabel(selectedCard.format);
       this.selectedCode = selectedCard.code;
+      this.selectedId = selectedCard.id;
       this.codePlaceholder = selectedCard.format === 'qr' ? 'QR' : 'CODE';
       this.barcodeBars = createBarcodeBars(selectedCard.format, selectedCard.code);
       this.hasBarcode = this.barcodeBars.length > 0;
@@ -59,6 +61,7 @@ export default {
     this.selectedName = '';
     this.selectedType = '';
     this.selectedCode = '';
+    this.selectedId = '';
     this.codePlaceholder = 'CODE';
     this.hasBarcode = false;
     this.barcodeBars = [];

@@ -82,7 +82,7 @@
 
 .code-box {
   width: 320px;
-  height: 140px;
+  height: 160px;
   background-color: #ffffff;
   border-radius: 12px;
   flex-direction: row;
@@ -126,6 +126,11 @@
 .barcode-module-light,
 .barcode-module-light-guard {
   background-color: #ffffff;
+}
+
+.qr-image {
+  width: 145px;
+  height: 145px;
 }
 
 .code-placeholder {

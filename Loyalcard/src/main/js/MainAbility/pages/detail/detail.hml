@@ -13,7 +13,9 @@
         <div if="{{ $item.type === 'light' }}" class="barcode-module-light"></div>
       </div>
     </div>
-    <text if="{{ !hasBarcode }}" class="code-placeholder">{{ codePlaceholder }}</text>
+    <image if="{{ cardId === 'lidl' }}" class="qr-image" src="/common/qr_lidl.png"></image>
+    <image if="{{ cardId === 'kaufland' }}" class="qr-image" src="/common/qr_kaufland.png"></image>
+    <text if="{{ !hasBarcode && cardId !== 'lidl' && cardId !== 'kaufland' }}" class="code-placeholder">{{ codePlaceholder }}</text>
   </div>
 
   <text class="number">{{ cardCode }}</text>
