@@ -2,15 +2,15 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "module description"
+      "value": "Loyalty cards for your wrist"
     },
     {
       "name": "MainAbility_desc",
-      "value": "description"
+      "value": "Store and scan loyalty cards on your wearable"
     },
     {
       "name": "MainAbility_label",
-      "value": "label"
+      "value": "LoyalCard"
     }
   ]
 }
