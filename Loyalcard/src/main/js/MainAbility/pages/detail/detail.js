@@ -12,7 +12,8 @@ export default {
     codePlaceholder: 'CODE',
     hasBarcode: false,
     barcodeBars: [],
-    hasQrImage: false
+    hasQrImage: false,
+    isScanMode: false
   },
 
   onInit() {
@@ -31,6 +32,10 @@ export default {
 
   getFormatLabel(format) {
     return getCardFormatLabel(format);
+  },
+
+  toggleScanMode() {
+    this.isScanMode = !this.isScanMode;
   },
 
   goBack() {

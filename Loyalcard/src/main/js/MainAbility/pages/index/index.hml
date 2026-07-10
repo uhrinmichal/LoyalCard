@@ -24,13 +24,13 @@
     </div>
   </div>
 
-  <div if="{{ viewMode === 'detail' }}" class="screen detail-screen">
+  <div if="{{ viewMode === 'detail' && !isScanMode }}" class="screen detail-screen">
     <text class="back" onclick="goBack">Back</text>
 
     <text class="detail-name">{{ selectedName }}</text>
     <text class="detail-type">{{ selectedType }}</text>
 
-    <div class="code-box">
+    <div class="code-box" onclick="toggleScanMode">
       <div if="{{ hasBarcode }}" class="barcode-render">
         <div for="{{ barcodeBars }}" tid="id" class="barcode-module-slot">
           <div if="{{ $item.type === 'darkGuard' }}" class="barcode-module-dark-guard"></div>
@@ -45,5 +45,21 @@
     </div>
 
     <text class="detail-code">{{ selectedCode }}</text>
+  </div>
+
+  <div if="{{ viewMode === 'detail' && isScanMode }}" class="screen scan-screen">
+    <div class="scan-code-box" onclick="toggleScanMode">
+      <div if="{{ hasBarcode }}" class="scan-barcode-render">
+        <div for="{{ barcodeBars }}" tid="id" class="scan-barcode-module-slot">
+          <div if="{{ $item.type === 'darkGuard' }}" class="scan-barcode-module-dark-guard"></div>
+          <div if="{{ $item.type === 'dark' }}" class="scan-barcode-module-dark"></div>
+          <div if="{{ $item.type === 'lightGuard' }}" class="scan-barcode-module-light-guard"></div>
+          <div if="{{ $item.type === 'light' }}" class="scan-barcode-module-light"></div>
+        </div>
+      </div>
+      <image if="{{ selectedId === 'lidl' && hasQrImage }}" class="scan-qr-image" src="/common/qr_lidl.png"></image>
+      <image if="{{ selectedId === 'kaufland' && hasQrImage }}" class="scan-qr-image" src="/common/qr_kaufland.png"></image>
+      <text if="{{ !hasBarcode && !hasQrImage }}" class="code-placeholder">{{ codePlaceholder }}</text>
+    </div>
   </div>
 </div>

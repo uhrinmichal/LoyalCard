@@ -145,3 +145,60 @@
   font-size: 15px;
   margin-top: 12px;
 }
+
+.scan-screen {
+  justify-content: center;
+}
+
+.scan-code-box {
+  width: 320px;
+  height: 220px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-barcode-render {
+  width: 285px;
+  height: 150px;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.scan-barcode-module-slot {
+  width: 3px;
+  height: 150px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.scan-barcode-module-dark,
+.scan-barcode-module-light {
+  width: 3px;
+  height: 126px;
+}
+
+.scan-barcode-module-dark-guard,
+.scan-barcode-module-light-guard {
+  width: 3px;
+  height: 150px;
+}
+
+.scan-barcode-module-dark,
+.scan-barcode-module-dark-guard {
+  background-color: #000000;
+}
+
+.scan-barcode-module-light,
+.scan-barcode-module-light-guard {
+  background-color: #ffffff;
+}
+
+.scan-qr-image {
+  width: 210px;
+  height: 210px;
+}

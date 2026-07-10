@@ -1,10 +1,10 @@
 <div class="container">
-  <text class="back" onclick="goBack">Back</text>
+  <text if="{{ !isScanMode }}" class="back" onclick="goBack">Back</text>
 
-  <text class="title">{{ cardName }}</text>
-  <text class="type">{{ cardType }}</text>
+  <text if="{{ !isScanMode }}" class="title">{{ cardName }}</text>
+  <text if="{{ !isScanMode }}" class="type">{{ cardType }}</text>
 
-  <div class="barcode">
+  <div if="{{ !isScanMode }}" class="barcode" onclick="toggleScanMode">
     <div if="{{ hasBarcode }}" class="barcode-render">
       <div for="{{ barcodeBars }}" tid="id" class="barcode-module-slot">
         <div if="{{ $item.type === 'darkGuard' }}" class="barcode-module-dark-guard"></div>
@@ -18,5 +18,19 @@
     <text if="{{ !hasBarcode && !hasQrImage }}" class="code-placeholder">{{ codePlaceholder }}</text>
   </div>
 
-  <text class="number">{{ cardCode }}</text>
+  <text if="{{ !isScanMode }}" class="number">{{ cardCode }}</text>
+
+  <div if="{{ isScanMode }}" class="scan-code-box" onclick="toggleScanMode">
+    <div if="{{ hasBarcode }}" class="scan-barcode-render">
+      <div for="{{ barcodeBars }}" tid="id" class="scan-barcode-module-slot">
+        <div if="{{ $item.type === 'darkGuard' }}" class="scan-barcode-module-dark-guard"></div>
+        <div if="{{ $item.type === 'dark' }}" class="scan-barcode-module-dark"></div>
+        <div if="{{ $item.type === 'lightGuard' }}" class="scan-barcode-module-light-guard"></div>
+        <div if="{{ $item.type === 'light' }}" class="scan-barcode-module-light"></div>
+      </div>
+    </div>
+    <image if="{{ cardId === 'lidl' && hasQrImage }}" class="scan-qr-image" src="/common/qr_lidl.png"></image>
+    <image if="{{ cardId === 'kaufland' && hasQrImage }}" class="scan-qr-image" src="/common/qr_kaufland.png"></image>
+    <text if="{{ !hasBarcode && !hasQrImage }}" class="code-placeholder">{{ codePlaceholder }}</text>
+  </div>
 </div>

@@ -14,6 +14,7 @@ export default {
     hasBarcode: false,
     barcodeBars: [],
     hasQrImage: false,
+    isScanMode: false,
     cards: cards
   },
 
@@ -29,6 +30,7 @@ export default {
       this.barcodeBars = createBarcodeBars(selectedCard.format, selectedCard.code);
       this.hasBarcode = this.barcodeBars.length > 0;
       this.hasQrImage = cardLookup.hasQrAsset(selectedCard);
+      this.isScanMode = false;
       this.viewMode = 'detail';
     }
   },
@@ -53,6 +55,10 @@ export default {
     this.openCard('billa');
   },
 
+  toggleScanMode() {
+    this.isScanMode = !this.isScanMode;
+  },
+
   goBack() {
     this.viewMode = 'list';
     this.selectedName = '';
@@ -63,5 +69,6 @@ export default {
     this.hasBarcode = false;
     this.barcodeBars = [];
     this.hasQrImage = false;
+    this.isScanMode = false;
   }
 }
