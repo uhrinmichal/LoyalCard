@@ -1,42 +1,64 @@
 <div class="container">
-  <div if="{{ viewMode === 'list' }}" class="screen">
-    <text class="title">LoyalCard</text>
-    <text class="subtitle">Loyalty Cards</text>
+  <div if="{{ viewMode === 'list' }}" class="screen list-screen">
+    <list class="card-list">
+      <list-item class="list-header">
+        <div class="list-header-content">
+          <text class="title">LoyalCard</text>
+          <text class="subtitle">Loyalty Cards</text>
+        </div>
+      </list-item>
 
-    <div class="card" onclick="openLidl">
-      <text class="badge yellow">L</text>
-      <text class="name">Lidl Plus</text>
-    </div>
+      <list-item class="card-list-item">
+        <div class="card list-card" onclick="openLidl">
+          <text class="badge yellow">L</text>
+          <text class="name">Lidl Plus</text>
+        </div>
+      </list-item>
 
-    <div class="card" onclick="openTesco">
-      <text class="badge blue">T</text>
-      <text class="name">Tesco Clubcard</text>
-    </div>
+      <list-item class="card-list-item">
+        <div class="card list-card" onclick="openTesco">
+          <text class="badge blue">T</text>
+          <text class="name">Tesco Clubcard</text>
+        </div>
+      </list-item>
 
-    <div class="card" onclick="openKaufland">
-      <text class="badge orange">K</text>
-      <text class="name">Kaufland Card</text>
-    </div>
+      <list-item class="card-list-item">
+        <div class="card list-card" onclick="openKaufland">
+          <text class="badge orange">K</text>
+          <text class="name">Kaufland Card</text>
+        </div>
+      </list-item>
 
-    <div class="card" onclick="openBilla">
-      <text class="badge red">B</text>
-      <text class="name">BILLA Bonus</text>
-    </div>
+      <list-item class="card-list-item">
+        <div class="card list-card" onclick="openBilla">
+          <text class="badge red">B</text>
+          <text class="name">BILLA Bonus</text>
+        </div>
+      </list-item>
 
-    <div if="{{ customEanVisible }}" class="card" onclick="openCustomEan">
-      <text class="badge blue">E</text>
-      <text class="name">EAN Card 1</text>
-    </div>
+      <list-item if="{{ customEanVisible }}" class="card-list-item">
+        <div class="card list-card" onclick="openCustomEan">
+          <text class="badge blue">E</text>
+          <text class="name">EAN Card 1</text>
+        </div>
+      </list-item>
 
-    <div if="{{ customQrVisible }}" class="card" onclick="openCustomQr">
-      <text class="badge green">Q</text>
-      <text class="name">QR Card 1</text>
-    </div>
+      <list-item if="{{ customQrVisible }}" class="card-list-item">
+        <div class="card list-card" onclick="openCustomQr">
+          <text class="badge green">Q</text>
+          <text class="name">QR Card 1</text>
+        </div>
+      </list-item>
 
-    <div if="{{ !customEanVisible || !customQrVisible }}" class="card add-card" onclick="startAdd">
-      <text class="add-symbol">+</text>
-      <text class="name">Add card</text>
-    </div>
+      <list-item if="{{ !customEanVisible || !customQrVisible }}" class="card-list-item">
+        <div class="card list-card add-card" onclick="startAdd">
+          <text class="add-symbol">+</text>
+          <text class="name">Add card</text>
+        </div>
+      </list-item>
+
+      <list-item class="list-footer"></list-item>
+    </list>
   </div>
 
   <div if="{{ viewMode === 'addFormat' }}" class="screen">
