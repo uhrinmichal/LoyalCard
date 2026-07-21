@@ -2,6 +2,7 @@ import cards from '../../common/cards.js';
 import cardLookup from '../../common/cardLookup.js';
 import createBarcodeBars from '../../common/barcodeRenderer.js';
 import getCardFormatLabel from '../../common/cardFormats.js';
+import { calculateEan13CheckDigit, isEan13Code } from '../../common/ean13.js';
 
 export default {
   data: {
@@ -16,7 +17,9 @@ export default {
     hasQrImage: false,
     isScanMode: false,
     cards: cards,
-    editorCode: ''
+    editorCode: '',
+    editorMessage: 'Enter 12 or 13 digits',
+    editorCanSave: false
   },
 
   openCard(cardId) {
@@ -70,6 +73,7 @@ export default {
 
   chooseEan() {
     this.editorCode = '';
+    this.updateEditorState();
     this.viewMode = 'editor';
   },
 
@@ -81,6 +85,7 @@ export default {
   appendDigit(digit) {
     if (this.editorCode.length < 13) {
       this.editorCode = this.editorCode + digit;
+      this.updateEditorState();
     }
   },
 
@@ -98,7 +103,32 @@ export default {
   removeDigit() {
     if (this.editorCode.length > 0) {
       this.editorCode = this.editorCode.substring(0, this.editorCode.length - 1);
+      this.updateEditorState();
     }
+  },
+
+  updateEditorState() {
+    if (this.editorCode.length === 12) {
+      this.editorCanSave = true;
+      this.editorMessage = 'Check digit will be added';
+      return;
+    }
+
+    if (this.editorCode.length === 13) {
+      this.editorCanSave = isEan13Code(this.editorCode);
+      this.editorMessage = this.editorCanSave ? 'Valid EAN-13' : 'Invalid check digit';
+      return;
+    }
+
+    this.editorCanSave = false;
+    this.editorMessage = 'Enter 12 or 13 digits';
+  },
+
+  confirmEan() {
+    if (this.editorCode.length === 12) {
+      this.editorCode = this.editorCode + calculateEan13CheckDigit(this.editorCode);
+    }
+    this.updateEditorState();
   },
 
   goBack() {

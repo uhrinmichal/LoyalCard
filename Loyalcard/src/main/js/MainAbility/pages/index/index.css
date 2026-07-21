@@ -125,7 +125,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
 }
 
 .code-input {
@@ -133,6 +132,15 @@
   color: #ffffff;
   font-size: 16px;
   text-align: center;
+}
+
+.editor-message {
+  width: 300px;
+  height: 24px;
+  color: #8e8e93;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 2px;
 }
 
 .keypad {
@@ -166,6 +174,14 @@
 
 .keypad-secondary {
   background-color: #48484a;
+}
+
+.keypad-save {
+  background-color: #30d158;
+}
+
+.save-text {
+  color: #000000;
 }
 
 .keypad-disabled {
