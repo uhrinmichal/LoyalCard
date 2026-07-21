@@ -113,6 +113,14 @@ export default {
     this.viewMode = 'editor';
   },
 
+  openQrTest() {
+    this.viewMode = 'qrTest';
+  },
+
+  closeQrTest() {
+    this.viewMode = 'addFormat';
+  },
+
   cancelEditor() {
     if (this.editingCustomEan) {
       this.editingCustomEan = false;

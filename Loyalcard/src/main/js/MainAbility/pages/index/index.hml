@@ -41,6 +41,19 @@
       <text class="format-badge blue">EAN</text>
       <text class="format-name">EAN-13 barcode</text>
     </div>
+    <div class="format-choice qr-test-choice" onclick="openQrTest">
+      <text class="format-badge green">QR</text>
+      <text class="format-name">QR code test</text>
+    </div>
+  </div>
+
+  <div if="{{ viewMode === 'qrTest' }}" class="screen">
+    <text class="back" onclick="closeQrTest">Back</text>
+    <text class="choice-title">QR code test</text>
+    <div class="qr-test-box">
+      <qrcode class="native-qr" value="1234567890123"></qrcode>
+    </div>
+    <text class="detail-code">1234567890123</text>
   </div>
 
   <div if="{{ viewMode === 'editor' }}" class="screen">

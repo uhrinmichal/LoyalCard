@@ -90,6 +90,10 @@
   padding-left: 14px;
 }
 
+.qr-test-choice {
+  margin-top: 10px;
+}
+
 .format-badge {
   width: 46px;
   height: 32px;
@@ -103,6 +107,24 @@
 .format-name {
   color: #ffffff;
   font-size: 17px;
+}
+
+.green { background-color: #30d158; }
+
+.qr-test-box {
+  width: 180px;
+  height: 180px;
+  background-color: #ffffff;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.native-qr {
+  width: 170px;
+  height: 170px;
+  color: #000000;
+  background-color: #ffffff;
 }
 
 .editor-back {
