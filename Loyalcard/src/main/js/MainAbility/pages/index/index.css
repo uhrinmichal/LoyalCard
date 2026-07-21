@@ -59,6 +59,21 @@
 .orange { background-color: #ff9f0a; }
 .red { background-color: #ff3b30; }
 
+.add-card {
+  background-color: #111111;
+}
+
+.add-symbol {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background-color: #30d158;
+  color: #000000;
+  font-size: 23px;
+  text-align: center;
+  margin-right: 10px;
+}
+
 .detail-screen {
   justify-content: center;
   padding-top: 0;

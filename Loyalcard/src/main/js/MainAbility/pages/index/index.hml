@@ -22,6 +22,11 @@
       <text class="badge red">B</text>
       <text class="name">BILLA Bonus</text>
     </div>
+
+    <div class="card add-card">
+      <text class="add-symbol">+</text>
+      <text class="name">Add card</text>
+    </div>
   </div>
 
   <div if="{{ viewMode === 'detail' && !isScanMode }}" class="screen detail-screen">
