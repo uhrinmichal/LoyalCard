@@ -36,6 +36,7 @@ export default {
     hasNativeQr: false,
     isScanMode: false,
     cards: cards,
+    customCardList: [],
     editorCode: '',
     editorTitle: 'New EAN card',
     editorMessage: 'Enter 12 or 13 digits',
@@ -76,6 +77,7 @@ export default {
         if (typeof data === 'string' && isEan13Code(data)) {
           page.customEanCode = data;
           page.customEanVisible = true;
+          page.refreshCustomCardList();
         }
       }
     });
@@ -85,6 +87,7 @@ export default {
         if (isNumericQrCode(data)) {
           page.customQrCode = data;
           page.customQrVisible = true;
+          page.refreshCustomCardList();
         }
       }
     });
@@ -93,6 +96,7 @@ export default {
       success: function(data) {
         if (isValidCardName(data)) {
           page.customEanName = data.trim();
+          page.refreshCustomCardList();
         }
       }
     });
@@ -101,6 +105,7 @@ export default {
       success: function(data) {
         if (isValidCardName(data)) {
           page.customQrName = data.trim();
+          page.refreshCustomCardList();
         }
       }
     });
@@ -110,6 +115,7 @@ export default {
         if (typeof data === 'string' && isEan13Code(data)) {
           page.customEan2Code = data;
           page.customEan2Visible = true;
+          page.refreshCustomCardList();
         }
       }
     });
@@ -118,6 +124,7 @@ export default {
       success: function(data) {
         if (isValidCardName(data)) {
           page.customEan2Name = data.trim();
+          page.refreshCustomCardList();
         }
       }
     });
@@ -127,6 +134,7 @@ export default {
         if (isNumericQrCode(data)) {
           page.customQr2Code = data;
           page.customQr2Visible = true;
+          page.refreshCustomCardList();
         }
       }
     });
@@ -135,6 +143,7 @@ export default {
       success: function(data) {
         if (isValidCardName(data)) {
           page.customQr2Name = data.trim();
+          page.refreshCustomCardList();
         }
       }
     });
@@ -195,6 +204,35 @@ export default {
     this.isCustomQr = false;
     this.isScanMode = false;
     this.viewMode = 'detail';
+  },
+
+  refreshCustomCardList() {
+    let customCards = [];
+    if (this.customEanVisible) {
+      customCards.push({ slot: 'ean1', format: 'ean13', name: this.customEanName });
+    }
+    if (this.customEan2Visible) {
+      customCards.push({ slot: 'ean2', format: 'ean13', name: this.customEan2Name });
+    }
+    if (this.customQrVisible) {
+      customCards.push({ slot: 'qr1', format: 'qr', name: this.customQrName });
+    }
+    if (this.customQr2Visible) {
+      customCards.push({ slot: 'qr2', format: 'qr', name: this.customQr2Name });
+    }
+    this.customCardList = customCards;
+  },
+
+  openCustomCard(slot) {
+    if (slot === 'ean1') {
+      this.openCustomEan();
+    } else if (slot === 'ean2') {
+      this.openCustomEan2();
+    } else if (slot === 'qr1') {
+      this.openCustomQr();
+    } else if (slot === 'qr2') {
+      this.openCustomQr2();
+    }
   },
 
   openCustomEan2() {
@@ -436,6 +474,7 @@ export default {
       this.customEanVisible = false;
     }
     this.isCustomEan = false;
+    this.refreshCustomCardList();
     this.goBack();
   },
 
@@ -462,6 +501,7 @@ export default {
       this.customQrVisible = false;
     }
     this.isCustomQr = false;
+    this.refreshCustomCardList();
     this.goBack();
   },
 
@@ -540,6 +580,7 @@ export default {
     this.editorCode = '';
     this.updateEditorState();
     this.editingCustomEan = false;
+    this.refreshCustomCardList();
     if (wasEditing) {
       this.openActiveCustomEan();
     } else {
@@ -570,6 +611,7 @@ export default {
       this.editorCode = '';
       this.updateEditorState();
       this.editingCustomQr = false;
+      this.refreshCustomCardList();
       if (wasEditing) {
         this.openActiveCustomQr();
       } else {

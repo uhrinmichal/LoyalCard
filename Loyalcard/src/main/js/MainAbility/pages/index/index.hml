@@ -36,31 +36,11 @@
         </div>
       </list-item>
 
-      <list-item if="{{ customEanVisible }}" class="card-list-item">
-        <div class="card list-card" onclick="openCustomEan">
-          <text class="badge blue">E</text>
-          <text class="name">{{ customEanName }}</text>
-        </div>
-      </list-item>
-
-      <list-item if="{{ customEan2Visible }}" class="card-list-item">
-        <div class="card list-card" onclick="openCustomEan2">
-          <text class="badge blue">E</text>
-          <text class="name">{{ customEan2Name }}</text>
-        </div>
-      </list-item>
-
-      <list-item if="{{ customQrVisible }}" class="card-list-item">
-        <div class="card list-card" onclick="openCustomQr">
-          <text class="badge green">Q</text>
-          <text class="name">{{ customQrName }}</text>
-        </div>
-      </list-item>
-
-      <list-item if="{{ customQr2Visible }}" class="card-list-item">
-        <div class="card list-card" onclick="openCustomQr2">
-          <text class="badge green">Q</text>
-          <text class="name">{{ customQr2Name }}</text>
+      <list-item for="{{ customCardList }}" tid="slot" class="card-list-item">
+        <div class="card list-card" onclick="openCustomCard({{$item.slot}})">
+          <text if="{{ $item.format === 'ean13' }}" class="badge blue">E</text>
+          <text if="{{ $item.format === 'qr' }}" class="badge green">Q</text>
+          <text class="name">{{ $item.name }}</text>
         </div>
       </list-item>
 
