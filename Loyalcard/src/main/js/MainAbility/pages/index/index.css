@@ -166,10 +166,6 @@
   background-color: #ffffff;
 }
 
-.editor-back {
-  margin-bottom: 2px;
-}
-
 .editor-title {
   width: 300px;
   color: #ffffff;
@@ -196,11 +192,19 @@
 }
 
 .name-keypad {
-  width: 280px;
-  height: 144px;
+  width: 284px;
+  height: 108px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.name-controls {
+  width: 176px;
+  height: 32px;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 4px;
 }
 
 .name-key {
@@ -335,8 +339,15 @@
 }
 
 .back {
-  color: #8e8e93;
-  font-size: 16px;
+  width: 76px;
+  height: 34px;
+  border-width: 1px;
+  border-color: #48484a;
+  border-radius: 8px;
+  background-color: #2c2c2e;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
   margin-bottom: 10px;
 }
 

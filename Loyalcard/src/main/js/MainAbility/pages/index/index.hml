@@ -106,6 +106,8 @@
       <div class="name-key" onclick="appendNameV"><text class="name-key-text">V</text></div>
       <div class="name-key" onclick="appendNameW"><text class="name-key-text">W</text></div>
       <div class="name-key" onclick="appendNameX"><text class="name-key-text">X</text></div>
+    </div>
+    <div class="name-controls">
       <div class="name-key" onclick="appendNameY"><text class="name-key-text">Y</text></div>
       <div class="name-key" onclick="appendNameZ"><text class="name-key-text">Z</text></div>
       <div class="name-key name-key-wide" onclick="appendNameSpace"><text class="name-key-small-text">SP</text></div>
