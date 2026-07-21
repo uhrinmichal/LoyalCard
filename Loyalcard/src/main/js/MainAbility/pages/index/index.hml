@@ -41,19 +41,19 @@
       <text class="format-badge blue">EAN</text>
       <text class="format-name">EAN-13 barcode</text>
     </div>
-    <div class="format-choice qr-test-choice" onclick="openQrTest">
+    <div class="format-choice qr-test-choice" onclick="chooseQr">
       <text class="format-badge green">QR</text>
-      <text class="format-name">QR code test</text>
+      <text class="format-name">QR code</text>
     </div>
   </div>
 
-  <div if="{{ viewMode === 'qrTest' }}" class="screen">
-    <text class="back" onclick="closeQrTest">Back</text>
-    <text class="choice-title">QR code test</text>
+  <div if="{{ viewMode === 'qrPreview' }}" class="screen">
+    <text class="back" onclick="closeQrPreview">Back</text>
+    <text class="choice-title">QR code preview</text>
     <div class="qr-test-box">
-      <qrcode class="native-qr" value="1234567890123" type="rect"></qrcode>
+      <qrcode class="native-qr" value="{{ qrPreviewCode }}" type="rect"></qrcode>
     </div>
-    <text class="detail-code">1234567890123</text>
+    <text class="detail-code">{{ qrPreviewCode }}</text>
   </div>
 
   <div if="{{ viewMode === 'editor' }}" class="screen">
@@ -75,7 +75,7 @@
       <div class="keypad-key" onclick="appendNine"><text class="keypad-text">9</text></div>
       <div class="keypad-key keypad-secondary" onclick="removeDigit"><text class="keypad-small-text">DEL</text></div>
       <div class="keypad-key" onclick="appendZero"><text class="keypad-text">0</text></div>
-      <div if="{{ editorCanSave }}" class="keypad-key keypad-save" onclick="confirmEan"><text class="keypad-small-text save-text">OK</text></div>
+      <div if="{{ editorCanSave }}" class="keypad-key keypad-save" onclick="confirmEditor"><text class="keypad-small-text save-text">OK</text></div>
       <div if="{{ !editorCanSave }}" class="keypad-key keypad-disabled"><text class="keypad-small-text">OK</text></div>
     </div>
   </div>

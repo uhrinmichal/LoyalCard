@@ -22,6 +22,8 @@ export default {
     editorTitle: 'New EAN card',
     editorMessage: 'Enter 12 or 13 digits',
     editorCanSave: false,
+    editorFormat: 'ean13',
+    qrPreviewCode: '',
     editingCustomEan: false,
     isCustomEan: false,
     customEanVisible: false,
@@ -107,18 +109,26 @@ export default {
 
   chooseEan() {
     this.editingCustomEan = false;
+    this.editorFormat = 'ean13';
     this.editorTitle = 'New EAN card';
     this.editorCode = '';
     this.updateEditorState();
     this.viewMode = 'editor';
   },
 
-  openQrTest() {
-    this.viewMode = 'qrTest';
+  chooseQr() {
+    this.editingCustomEan = false;
+    this.editorFormat = 'qr';
+    this.editorTitle = 'New QR card';
+    this.editorCode = '';
+    this.updateEditorState();
+    this.viewMode = 'editor';
   },
 
-  closeQrTest() {
-    this.viewMode = 'addFormat';
+  closeQrPreview() {
+    this.editorCode = this.qrPreviewCode;
+    this.updateEditorState();
+    this.viewMode = 'editor';
   },
 
   cancelEditor() {
@@ -133,6 +143,7 @@ export default {
 
   startEditCustomEan() {
     this.editingCustomEan = true;
+    this.editorFormat = 'ean13';
     this.editorTitle = 'Edit EAN Card 1';
     this.editorCode = this.customEanCode;
     this.updateEditorState();
@@ -156,7 +167,8 @@ export default {
   },
 
   appendDigit(digit) {
-    if (this.editorCode.length < 13) {
+    let maxLength = this.editorFormat === 'qr' ? 32 : 13;
+    if (this.editorCode.length < maxLength) {
       this.editorCode = this.editorCode + digit;
       this.updateEditorState();
     }
@@ -181,6 +193,12 @@ export default {
   },
 
   updateEditorState() {
+    if (this.editorFormat === 'qr') {
+      this.editorCanSave = this.editorCode.length > 0 && this.editorCode.length <= 32;
+      this.editorMessage = this.editorCanSave ? 'Numeric QR code' : 'Enter 1 to 32 digits';
+      return;
+    }
+
     if (this.editorCode.length === 12) {
       this.editorCanSave = true;
       this.editorMessage = 'Check digit will be added';
@@ -221,6 +239,18 @@ export default {
     } else {
       this.viewMode = 'list';
     }
+  },
+
+  confirmEditor() {
+    if (this.editorFormat === 'qr') {
+      if (!this.editorCanSave) {
+        return;
+      }
+      this.qrPreviewCode = this.editorCode;
+      this.viewMode = 'qrPreview';
+      return;
+    }
+    this.confirmEan();
   },
 
   goBack() {
