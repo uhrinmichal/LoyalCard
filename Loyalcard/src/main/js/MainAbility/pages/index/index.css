@@ -276,6 +276,14 @@
   margin-top: 12px;
 }
 
+.detail-action {
+  width: 90px;
+  color: #30d158;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 6px;
+}
+
 .scan-screen {
   justify-content: center;
 }

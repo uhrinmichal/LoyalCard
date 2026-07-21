@@ -19,8 +19,11 @@ export default {
     isScanMode: false,
     cards: cards,
     editorCode: '',
+    editorTitle: 'New EAN card',
     editorMessage: 'Enter 12 or 13 digits',
     editorCanSave: false,
+    editingCustomEan: false,
+    isCustomEan: false,
     customEanVisible: false,
     customEanCode: ''
   },
@@ -50,6 +53,7 @@ export default {
       this.barcodeBars = createBarcodeBars(selectedCard.format, selectedCard.code);
       this.hasBarcode = this.barcodeBars.length > 0;
       this.hasQrImage = cardLookup.hasQrAsset(selectedCard);
+      this.isCustomEan = false;
       this.isScanMode = false;
       this.viewMode = 'detail';
     }
@@ -84,6 +88,7 @@ export default {
     this.barcodeBars = createBarcodeBars('ean13', this.customEanCode);
     this.hasBarcode = this.barcodeBars.length > 0;
     this.hasQrImage = false;
+    this.isCustomEan = true;
     this.isScanMode = false;
     this.viewMode = 'detail';
   },
@@ -101,14 +106,29 @@ export default {
   },
 
   chooseEan() {
+    this.editingCustomEan = false;
+    this.editorTitle = 'New EAN card';
     this.editorCode = '';
     this.updateEditorState();
     this.viewMode = 'editor';
   },
 
   cancelEditor() {
+    if (this.editingCustomEan) {
+      this.editingCustomEan = false;
+      this.openCustomEan();
+      return;
+    }
     this.editorCode = '';
     this.viewMode = 'addFormat';
+  },
+
+  startEditCustomEan() {
+    this.editingCustomEan = true;
+    this.editorTitle = 'Edit EAN Card 1';
+    this.editorCode = this.customEanCode;
+    this.updateEditorState();
+    this.viewMode = 'editor';
   },
 
   appendDigit(digit) {
@@ -154,6 +174,7 @@ export default {
   },
 
   confirmEan() {
+    let wasEditing = this.editingCustomEan;
     if (this.editorCode.length === 12) {
       this.editorCode = this.editorCode + calculateEan13CheckDigit(this.editorCode);
     }
@@ -170,7 +191,12 @@ export default {
     });
     this.editorCode = '';
     this.updateEditorState();
-    this.viewMode = 'list';
+    this.editingCustomEan = false;
+    if (wasEditing) {
+      this.openCustomEan();
+    } else {
+      this.viewMode = 'list';
+    }
   },
 
   goBack() {
@@ -183,6 +209,7 @@ export default {
     this.hasBarcode = false;
     this.barcodeBars = [];
     this.hasQrImage = false;
+    this.isCustomEan = false;
     this.isScanMode = false;
   }
 }

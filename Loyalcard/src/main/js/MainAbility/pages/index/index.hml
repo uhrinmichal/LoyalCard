@@ -45,7 +45,7 @@
 
   <div if="{{ viewMode === 'editor' }}" class="screen">
     <text class="back editor-back" onclick="cancelEditor">Back</text>
-    <text class="editor-title">New EAN card</text>
+    <text class="editor-title">{{ editorTitle }}</text>
     <div class="code-input-box">
       <text class="code-input">{{ editorCode }}</text>
     </div>
@@ -88,6 +88,7 @@
     </div>
 
     <text class="detail-code">{{ selectedCode }}</text>
+    <text if="{{ isCustomEan }}" class="detail-action" onclick="startEditCustomEan">Edit</text>
   </div>
 
   <div if="{{ viewMode === 'detail' && isScanMode }}" class="screen scan-screen">
