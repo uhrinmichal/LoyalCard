@@ -60,6 +60,11 @@ export default {
     customQrVisible: false,
     customQrCode: '',
     customQrName: 'QR Card 1',
+    customQr2Visible: false,
+    customQr2Code: '',
+    customQr2Name: 'QR Card 2',
+    activeQrSlot: 1,
+    targetQrSlot: 1,
     isCustomQr: false
   },
 
@@ -113,6 +118,23 @@ export default {
       success: function(data) {
         if (isValidCardName(data)) {
           page.customEan2Name = data.trim();
+        }
+      }
+    });
+    storage.get({
+      key: 'custom_qr_2_code',
+      success: function(data) {
+        if (isNumericQrCode(data)) {
+          page.customQr2Code = data;
+          page.customQr2Visible = true;
+        }
+      }
+    });
+    storage.get({
+      key: 'custom_qr_2_name',
+      success: function(data) {
+        if (isValidCardName(data)) {
+          page.customQr2Name = data.trim();
         }
       }
     });
@@ -201,6 +223,7 @@ export default {
   },
 
   openCustomQr() {
+    this.activeQrSlot = 1;
     this.selectedName = this.customQrName;
     this.selectedType = getCardFormatLabel('qr');
     this.selectedCode = this.customQrCode;
@@ -214,6 +237,31 @@ export default {
     this.isCustomQr = true;
     this.isScanMode = false;
     this.viewMode = 'detail';
+  },
+
+  openCustomQr2() {
+    this.activeQrSlot = 2;
+    this.selectedName = this.customQr2Name;
+    this.selectedType = getCardFormatLabel('qr');
+    this.selectedCode = this.customQr2Code;
+    this.selectedId = 'custom-qr-2';
+    this.codePlaceholder = 'QR';
+    this.barcodeBars = [];
+    this.hasBarcode = false;
+    this.hasQrImage = false;
+    this.hasNativeQr = true;
+    this.isCustomEan = false;
+    this.isCustomQr = true;
+    this.isScanMode = false;
+    this.viewMode = 'detail';
+  },
+
+  openActiveCustomQr() {
+    if (this.activeQrSlot === 2) {
+      this.openCustomQr2();
+    } else {
+      this.openCustomQr();
+    }
   },
 
   toggleScanMode() {
@@ -242,6 +290,8 @@ export default {
     this.editingCustomEan = false;
     this.editingCustomQr = false;
     this.editorFormat = 'qr';
+    this.targetQrSlot = this.customQrVisible ? 2 : 1;
+    this.activeQrSlot = this.targetQrSlot;
     this.editorCode = '';
     this.startNameEditor('', 'Name QR card');
   },
@@ -308,7 +358,7 @@ export default {
     }
     if (this.editingCustomQr) {
       this.editingCustomQr = false;
-      this.openCustomQr();
+      this.openActiveCustomQr();
       return;
     }
     this.viewMode = 'addFormat';
@@ -322,7 +372,7 @@ export default {
     if (this.editingCustomEan) {
       this.editorCode = this.targetEanSlot === 2 ? this.customEan2Code : this.customEanCode;
     } else if (this.editingCustomQr) {
-      this.editorCode = this.customQrCode;
+      this.editorCode = this.targetQrSlot === 2 ? this.customQr2Code : this.customQrCode;
     }
     this.editorTitle = this.editorFormat === 'qr' ? 'Enter QR code' : 'Enter EAN code';
     this.updateEditorState();
@@ -355,8 +405,12 @@ export default {
     this.editingCustomEan = false;
     this.editingCustomQr = true;
     this.editorFormat = 'qr';
-    this.editorCode = this.customQrCode;
-    this.startNameEditor(this.customQrName, 'Edit card name');
+    this.targetQrSlot = this.activeQrSlot;
+    this.editorCode = this.targetQrSlot === 2 ? this.customQr2Code : this.customQrCode;
+    this.startNameEditor(
+      this.targetQrSlot === 2 ? this.customQr2Name : this.customQrName,
+      'Edit card name'
+    );
   },
 
   requestDeleteCustomEan() {
@@ -394,11 +448,19 @@ export default {
   },
 
   confirmDeleteCustomQr() {
-    storage.delete({ key: 'custom_qr_code' });
-    storage.delete({ key: 'custom_qr_name' });
-    this.customQrCode = '';
-    this.customQrName = 'QR Card 1';
-    this.customQrVisible = false;
+    if (this.activeQrSlot === 2) {
+      storage.delete({ key: 'custom_qr_2_code' });
+      storage.delete({ key: 'custom_qr_2_name' });
+      this.customQr2Code = '';
+      this.customQr2Name = 'QR Card 2';
+      this.customQr2Visible = false;
+    } else {
+      storage.delete({ key: 'custom_qr_code' });
+      storage.delete({ key: 'custom_qr_name' });
+      this.customQrCode = '';
+      this.customQrName = 'QR Card 1';
+      this.customQrVisible = false;
+    }
     this.isCustomQr = false;
     this.goBack();
   },
@@ -492,22 +554,24 @@ export default {
         return;
       }
       this.qrPreviewCode = this.editorCode;
-      this.customQrCode = this.editorCode;
-      this.customQrName = this.editorName;
-      this.customQrVisible = true;
-      storage.set({
-        key: 'custom_qr_code',
-        value: this.customQrCode
-      });
-      storage.set({
-        key: 'custom_qr_name',
-        value: this.customQrName
-      });
+      if (this.targetQrSlot === 2) {
+        this.customQr2Code = this.editorCode;
+        this.customQr2Name = this.editorName;
+        this.customQr2Visible = true;
+        storage.set({ key: 'custom_qr_2_code', value: this.customQr2Code });
+        storage.set({ key: 'custom_qr_2_name', value: this.customQr2Name });
+      } else {
+        this.customQrCode = this.editorCode;
+        this.customQrName = this.editorName;
+        this.customQrVisible = true;
+        storage.set({ key: 'custom_qr_code', value: this.customQrCode });
+        storage.set({ key: 'custom_qr_name', value: this.customQrName });
+      }
       this.editorCode = '';
       this.updateEditorState();
       this.editingCustomQr = false;
       if (wasEditing) {
-        this.openCustomQr();
+        this.openActiveCustomQr();
       } else {
         this.viewMode = 'list';
       }

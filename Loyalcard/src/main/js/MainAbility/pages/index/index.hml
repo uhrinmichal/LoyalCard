@@ -57,6 +57,13 @@
         </div>
       </list-item>
 
+      <list-item if="{{ customQr2Visible }}" class="card-list-item">
+        <div class="card list-card" onclick="openCustomQr2">
+          <text class="badge green">Q</text>
+          <text class="name">{{ customQr2Name }}</text>
+        </div>
+      </list-item>
+
       <list-item class="card-list-item">
         <div class="card list-card add-card" onclick="startAdd">
           <text class="add-symbol">+</text>
@@ -75,11 +82,11 @@
       <text class="format-badge blue">EAN</text>
       <text class="format-name">EAN-13 barcode</text>
     </div>
-    <div if="{{ !customQrVisible }}" class="format-choice qr-test-choice" onclick="chooseQr">
+    <div if="{{ !customQrVisible || !customQr2Visible }}" class="format-choice qr-test-choice" onclick="chooseQr">
       <text class="format-badge green">QR</text>
       <text class="format-name">QR code</text>
     </div>
-    <text if="{{ customEanVisible && customEan2Visible && customQrVisible }}" class="editor-message">No free card slots</text>
+    <text if="{{ customEanVisible && customEan2Visible && customQrVisible && customQr2Visible }}" class="editor-message">No free card slots</text>
   </div>
 
   <div if="{{ viewMode === 'nameEditor' }}" class="screen">
@@ -221,8 +228,8 @@
   </div>
 
   <div if="{{ viewMode === 'deleteQrConfirm' }}" class="screen">
-    <text class="confirm-title">Delete {{ customQrName }}?</text>
-    <text class="confirm-code">{{ customQrCode }}</text>
+    <text class="confirm-title">Delete {{ selectedName }}?</text>
+    <text class="confirm-code">{{ selectedCode }}</text>
     <div class="confirm-actions">
       <text class="confirm-button" onclick="cancelDeleteCustomQr">Cancel</text>
       <text class="confirm-button confirm-delete" onclick="confirmDeleteCustomQr">Delete</text>
