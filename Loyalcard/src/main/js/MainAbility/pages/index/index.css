@@ -178,6 +178,85 @@
   margin-bottom: 8px;
 }
 
+.card-name-input-box {
+  width: 286px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: #1c1c1e;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-name-input {
+  width: 266px;
+  color: #ffffff;
+  font-size: 16px;
+  text-align: center;
+}
+
+.name-keypad {
+  width: 280px;
+  height: 144px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.name-key {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  background-color: #2c2c2e;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.name-key-wide {
+  width: 50px;
+}
+
+.name-key-delete {
+  background-color: #48484a;
+}
+
+.name-key-text {
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.name-key-small-text {
+  color: #ffffff;
+  font-size: 11px;
+}
+
+.name-next {
+  width: 160px;
+  height: 46px;
+  margin-top: 6px;
+  border-radius: 8px;
+  background-color: #30d158;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.name-next-disabled {
+  background-color: #1c1c1e;
+  opacity: 0.5;
+}
+
+.name-next-text {
+  color: #000000;
+  font-size: 16px;
+}
+
+.name-next-disabled .name-next-text {
+  color: #8e8e93;
+}
+
 .code-input-box {
   width: 286px;
   height: 50px;

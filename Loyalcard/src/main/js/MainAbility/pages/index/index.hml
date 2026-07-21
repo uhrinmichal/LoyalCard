@@ -39,14 +39,14 @@
       <list-item if="{{ customEanVisible }}" class="card-list-item">
         <div class="card list-card" onclick="openCustomEan">
           <text class="badge blue">E</text>
-          <text class="name">EAN Card 1</text>
+          <text class="name">{{ customEanName }}</text>
         </div>
       </list-item>
 
       <list-item if="{{ customQrVisible }}" class="card-list-item">
         <div class="card list-card" onclick="openCustomQr">
           <text class="badge green">Q</text>
-          <text class="name">QR Card 1</text>
+          <text class="name">{{ customQrName }}</text>
         </div>
       </list-item>
 
@@ -71,6 +71,51 @@
     <div class="format-choice qr-test-choice" onclick="chooseQr">
       <text class="format-badge green">QR</text>
       <text class="format-name">QR code</text>
+    </div>
+  </div>
+
+  <div if="{{ viewMode === 'nameEditor' }}" class="screen">
+    <text class="back" onclick="cancelNameEditor">Back</text>
+    <text class="editor-title">{{ nameEditorTitle }}</text>
+    <div class="card-name-input-box">
+      <text class="card-name-input">{{ editorName }}</text>
+    </div>
+    <text class="editor-message">{{ nameEditorMessage }}</text>
+    <div class="name-keypad">
+      <div class="name-key" onclick="appendNameA"><text class="name-key-text">A</text></div>
+      <div class="name-key" onclick="appendNameB"><text class="name-key-text">B</text></div>
+      <div class="name-key" onclick="appendNameC"><text class="name-key-text">C</text></div>
+      <div class="name-key" onclick="appendNameD"><text class="name-key-text">D</text></div>
+      <div class="name-key" onclick="appendNameE"><text class="name-key-text">E</text></div>
+      <div class="name-key" onclick="appendNameF"><text class="name-key-text">F</text></div>
+      <div class="name-key" onclick="appendNameG"><text class="name-key-text">G</text></div>
+      <div class="name-key" onclick="appendNameH"><text class="name-key-text">H</text></div>
+      <div class="name-key" onclick="appendNameI"><text class="name-key-text">I</text></div>
+      <div class="name-key" onclick="appendNameJ"><text class="name-key-text">J</text></div>
+      <div class="name-key" onclick="appendNameK"><text class="name-key-text">K</text></div>
+      <div class="name-key" onclick="appendNameL"><text class="name-key-text">L</text></div>
+      <div class="name-key" onclick="appendNameM"><text class="name-key-text">M</text></div>
+      <div class="name-key" onclick="appendNameN"><text class="name-key-text">N</text></div>
+      <div class="name-key" onclick="appendNameO"><text class="name-key-text">O</text></div>
+      <div class="name-key" onclick="appendNameP"><text class="name-key-text">P</text></div>
+      <div class="name-key" onclick="appendNameQ"><text class="name-key-text">Q</text></div>
+      <div class="name-key" onclick="appendNameR"><text class="name-key-text">R</text></div>
+      <div class="name-key" onclick="appendNameS"><text class="name-key-text">S</text></div>
+      <div class="name-key" onclick="appendNameT"><text class="name-key-text">T</text></div>
+      <div class="name-key" onclick="appendNameU"><text class="name-key-text">U</text></div>
+      <div class="name-key" onclick="appendNameV"><text class="name-key-text">V</text></div>
+      <div class="name-key" onclick="appendNameW"><text class="name-key-text">W</text></div>
+      <div class="name-key" onclick="appendNameX"><text class="name-key-text">X</text></div>
+      <div class="name-key" onclick="appendNameY"><text class="name-key-text">Y</text></div>
+      <div class="name-key" onclick="appendNameZ"><text class="name-key-text">Z</text></div>
+      <div class="name-key name-key-wide" onclick="appendNameSpace"><text class="name-key-small-text">SP</text></div>
+      <div class="name-key name-key-wide name-key-delete" onclick="removeNameCharacter"><text class="name-key-small-text">DEL</text></div>
+    </div>
+    <div if="{{ nameCanContinue }}" class="name-next" onclick="confirmCardName">
+      <text class="name-next-text">Next</text>
+    </div>
+    <div if="{{ !nameCanContinue }}" class="name-next name-next-disabled">
+      <text class="name-next-text">Next</text>
     </div>
   </div>
 
@@ -157,7 +202,7 @@
   </div>
 
   <div if="{{ viewMode === 'deleteConfirm' }}" class="screen">
-    <text class="confirm-title">Delete EAN Card 1?</text>
+    <text class="confirm-title">Delete {{ customEanName }}?</text>
     <text class="confirm-code">{{ customEanCode }}</text>
     <div class="confirm-actions">
       <text class="confirm-button" onclick="cancelDeleteCustomEan">Cancel</text>
@@ -166,7 +211,7 @@
   </div>
 
   <div if="{{ viewMode === 'deleteQrConfirm' }}" class="screen">
-    <text class="confirm-title">Delete QR Card 1?</text>
+    <text class="confirm-title">Delete {{ customQrName }}?</text>
     <text class="confirm-code">{{ customQrCode }}</text>
     <div class="confirm-actions">
       <text class="confirm-button" onclick="cancelDeleteCustomQr">Cancel</text>

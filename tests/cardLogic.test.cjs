@@ -40,21 +40,22 @@ function loadBarcodeRenderer(encodeEan13) {
   return new Function('encodeEan13', source)(encodeEan13);
 }
 
-function loadQrValidator() {
+function loadInputValidators() {
   let source = fs.readFileSync(
     path.join(mainAbilityPath, 'pages', 'index', 'index.js'),
     'utf8'
   );
   let start = source.indexOf('function isNumericQrCode');
   let end = source.indexOf('export default', start);
-  let validatorSource = source.substring(start, end).concat('\nreturn isNumericQrCode;');
+  let validatorSource = source.substring(start, end)
+    .concat('\nreturn { isNumericQrCode, isValidCardName };');
   return new Function(validatorSource)();
 }
 
 const ean13 = loadEan13();
 const defaultCards = loadDefaultCards();
 const createBarcodeBars = loadBarcodeRenderer(ean13.encodeEan13);
-const isNumericQrCode = loadQrValidator();
+const inputValidators = loadInputValidators();
 
 test('EAN-13 accepts 12 digits and calculates the check digit', () => {
   assert.equal(ean13.calculateEan13CheckDigit('590123412345'), '7');
@@ -66,10 +67,16 @@ test('EAN-13 rejects an invalid check digit', () => {
 });
 
 test('QR input accepts digits and enforces its limit', () => {
-  assert.equal(isNumericQrCode('1234567890'), true);
-  assert.equal(isNumericQrCode('123ABC'), false);
-  assert.equal(isNumericQrCode(''), false);
-  assert.equal(isNumericQrCode('1'.repeat(33)), false);
+  assert.equal(inputValidators.isNumericQrCode('1234567890'), true);
+  assert.equal(inputValidators.isNumericQrCode('123ABC'), false);
+  assert.equal(inputValidators.isNumericQrCode(''), false);
+  assert.equal(inputValidators.isNumericQrCode('1'.repeat(33)), false);
+});
+
+test('card names accept visible text up to 20 characters', () => {
+  assert.equal(inputValidators.isValidCardName('My Card'), true);
+  assert.equal(inputValidators.isValidCardName('  '), false);
+  assert.equal(inputValidators.isValidCardName('A'.repeat(21)), false);
 });
 
 test('EAN-13 renderer creates the expected 95 modules', () => {
@@ -91,6 +98,8 @@ test('custom cards use native QR and wearable storage', () => {
   assert.match(indexHml, /<qrcode[^>]+value="\{\{ selectedCode \}\}"/);
   assert.match(indexJs, /key: 'custom_ean_code'/);
   assert.match(indexJs, /key: 'custom_qr_code'/);
+  assert.match(indexJs, /key: 'custom_ean_name'/);
+  assert.match(indexJs, /key: 'custom_qr_name'/);
 });
 
 test('all four default cards provide their expected code source', () => {
