@@ -51,7 +51,7 @@
     <text class="back" onclick="closeQrTest">Back</text>
     <text class="choice-title">QR code test</text>
     <div class="qr-test-box">
-      <qrcode class="native-qr" value="1234567890123"></qrcode>
+      <qrcode class="native-qr" value="1234567890123" type="rect"></qrcode>
     </div>
     <text class="detail-code">1234567890123</text>
   </div>
