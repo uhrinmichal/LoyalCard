@@ -3,8 +3,8 @@
     "bundleName": "sk.loyalcard.app",
     "vendor": "LoyalCard",
     "version": {
-      "code": 1000000,
-      "name": "1.0.0"
+      "code": 1010100,
+      "name": "1.1.1"
     }
   },
   "deviceConfig": {},
@@ -31,8 +31,7 @@
     "js": [
       {
         "pages": [
-          "pages/index/index",
-          "pages/detail/detail"
+          "pages/index/index"
         ],
         "name": ".MainAbility"
       }

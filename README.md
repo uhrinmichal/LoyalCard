@@ -4,9 +4,16 @@ Loyalty cards application for Huawei Lite Wearable devices.
 ## Features
 
 - Round-display layout optimized for wearable devices
-- QR cards rendered from local image assets
-- EAN-13 barcode rendering with fullscreen scan mode
+- Add, edit, and delete one numeric QR card and one EAN-13 card on the watch
+- Custom cards restored from wearable system storage
+- Native QR rendering and EAN-13 barcode rendering with fullscreen scan mode
+- QR demo cards rendered from local image assets
 - Demo cards for Lidl, Tesco, Kaufland, and BILLA
+
+## Supported input
+
+- QR cards accept 1 to 32 numeric digits.
+- EAN-13 cards accept 12 digits and calculate the check digit, or validate all 13 digits.
 
 ## Card data
 

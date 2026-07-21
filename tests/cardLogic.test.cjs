@@ -13,6 +13,7 @@ const commonPath = path.join(
   'MainAbility',
   'common'
 );
+const mainAbilityPath = path.dirname(commonPath);
 
 function readCommonFile(fileName) {
   return fs.readFileSync(path.join(commonPath, fileName), 'utf8');
@@ -24,17 +25,6 @@ function loadEan13() {
     .replace(/export \{[\s\S]*?\};\s*$/, '')
     .concat('\nreturn { encodeEan13, calculateEan13CheckDigit, isEan13Code };');
   return new Function(source)();
-}
-
-function loadCardManager(ean13) {
-  let source = readCommonFile('cardManager.js')
-    .replace(/import \{[\s\S]*?\} from '.\/ean13\.js';/, '')
-    .replace(/export \{[\s\S]*?\};\s*$/, '')
-    .concat('\nreturn { cloneCards, createCard, findCardById, removeCard, restoreCards, updateCardCode, validateCardCode };');
-  return new Function('calculateEan13CheckDigit', 'isEan13Code', source)(
-    ean13.calculateEan13CheckDigit,
-    ean13.isEan13Code
-  );
 }
 
 function loadDefaultCards() {
@@ -50,71 +40,65 @@ function loadBarcodeRenderer(encodeEan13) {
   return new Function('encodeEan13', source)(encodeEan13);
 }
 
-async function loadQrRenderer() {
-  let vendorSource = readCommonFile(path.join('vendor', 'lean-qr-nano.min.js'));
-  let vendorModule = await import('data:text/javascript;base64,' + Buffer.from(vendorSource).toString('base64'));
-  let source = readCommonFile('qrRenderer.js')
-    .replace("import { generate } from './vendor/lean-qr-nano.min.js';", '')
-    .replace('export default createQrRenderData;', 'return createQrRenderData;');
-  return new Function('generate', source)(vendorModule.generate);
+function loadQrValidator() {
+  let source = fs.readFileSync(
+    path.join(mainAbilityPath, 'pages', 'index', 'index.js'),
+    'utf8'
+  );
+  let start = source.indexOf('function isNumericQrCode');
+  let end = source.indexOf('export default', start);
+  let validatorSource = source.substring(start, end).concat('\nreturn isNumericQrCode;');
+  return new Function(validatorSource)();
 }
 
 const ean13 = loadEan13();
-const cardManager = loadCardManager(ean13);
 const defaultCards = loadDefaultCards();
 const createBarcodeBars = loadBarcodeRenderer(ean13.encodeEan13);
+const isNumericQrCode = loadQrValidator();
 
 test('EAN-13 accepts 12 digits and calculates the check digit', () => {
-  assert.deepEqual(cardManager.validateCardCode('ean13', '590123412345'), {
-    valid: true,
-    code: '5901234123457',
-    message: ''
-  });
+  assert.equal(ean13.calculateEan13CheckDigit('590123412345'), '7');
+  assert.equal(ean13.isEan13Code('5901234123457'), true);
 });
 
 test('EAN-13 rejects an invalid check digit', () => {
-  assert.equal(cardManager.validateCardCode('ean13', '5901234123458').valid, false);
+  assert.equal(ean13.isEan13Code('5901234123458'), false);
 });
 
 test('QR input accepts digits and enforces its limit', () => {
-  assert.equal(cardManager.validateCardCode('qr', '1234567890').valid, true);
-  assert.equal(cardManager.validateCardCode('qr', '123ABC').valid, false);
-  assert.equal(cardManager.validateCardCode('qr', '1'.repeat(65)).valid, false);
+  assert.equal(isNumericQrCode('1234567890'), true);
+  assert.equal(isNumericQrCode('123ABC'), false);
+  assert.equal(isNumericQrCode(''), false);
+  assert.equal(isNumericQrCode('1'.repeat(33)), false);
 });
 
-test('card collection supports create, update, remove, and restore', () => {
-  let cards = [];
-  let card = cardManager.createCard(cards, 'qr', '1234');
-  cards = cards.concat(card);
-  assert.equal(cards[0].name, 'QR Card 1');
-
-  cards = cardManager.updateCardCode(cards, card.id, '5678');
-  assert.equal(cards[0].code, '5678');
-  assert.deepEqual(cardManager.restoreCards(JSON.stringify(cards), []), cards);
-  assert.deepEqual(cardManager.removeCard(cards, card.id), []);
-  assert.deepEqual(cardManager.restoreCards('[]', [{ id: 'fallback' }]), []);
+test('EAN-13 renderer creates the expected 95 modules', () => {
+  let bars = createBarcodeBars('ean13', '5901234123457');
+  assert.equal(bars.length, 95);
+  assert.equal(bars[0].type, 'darkGuard');
+  assert.equal(bars[94].type, 'darkGuard');
 });
 
-test('QR renderer creates a bounded square module matrix', async () => {
-  let createQrRenderData = await loadQrRenderer();
-  let renderData = createQrRenderData('1234567890123', 210);
-  let side = Math.sqrt(renderData.modules.length);
-
-  assert.equal(Number.isInteger(side), true);
-  assert.equal(renderData.contentSize, side * renderData.moduleSize);
-  assert.equal(renderData.outerSize <= 210, true);
-  assert.equal(renderData.modules.some(module => module.dark), true);
-  assert.equal(renderData.modules.some(module => !module.dark), true);
+test('custom cards use native QR and wearable storage', () => {
+  let indexHml = fs.readFileSync(
+    path.join(mainAbilityPath, 'pages', 'index', 'index.hml'),
+    'utf8'
+  );
+  let indexJs = fs.readFileSync(
+    path.join(mainAbilityPath, 'pages', 'index', 'index.js'),
+    'utf8'
+  );
+  assert.match(indexHml, /<qrcode[^>]+value="\{\{ selectedCode \}\}"/);
+  assert.match(indexJs, /key: 'custom_ean_code'/);
+  assert.match(indexJs, /key: 'custom_qr_code'/);
 });
 
-test('all four default cards still produce their expected code type', async () => {
-  let createQrRenderData = await loadQrRenderer();
-
+test('all four default cards provide their expected code source', () => {
   for (let card of defaultCards) {
     if (card.format === 'ean13') {
       assert.equal(createBarcodeBars(card.format, card.code).length, 95, card.id);
     } else {
-      assert.equal(createQrRenderData(card.code, 210).modules.length > 0, true, card.id);
+      assert.match(card.qrAsset, /^\/common\/qr_.+\.png$/, card.id);
     }
   }
 });
