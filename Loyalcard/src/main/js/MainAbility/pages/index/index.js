@@ -15,7 +15,8 @@ export default {
     barcodeBars: [],
     hasQrImage: false,
     isScanMode: false,
-    cards: cards
+    cards: cards,
+    editorCode: ''
   },
 
   openCard(cardId) {
@@ -65,6 +66,39 @@ export default {
 
   cancelAdd() {
     this.viewMode = 'list';
+  },
+
+  chooseEan() {
+    this.editorCode = '';
+    this.viewMode = 'editor';
+  },
+
+  cancelEditor() {
+    this.editorCode = '';
+    this.viewMode = 'addFormat';
+  },
+
+  appendDigit(digit) {
+    if (this.editorCode.length < 13) {
+      this.editorCode = this.editorCode + digit;
+    }
+  },
+
+  appendOne() { this.appendDigit('1'); },
+  appendTwo() { this.appendDigit('2'); },
+  appendThree() { this.appendDigit('3'); },
+  appendFour() { this.appendDigit('4'); },
+  appendFive() { this.appendDigit('5'); },
+  appendSix() { this.appendDigit('6'); },
+  appendSeven() { this.appendDigit('7'); },
+  appendEight() { this.appendDigit('8'); },
+  appendNine() { this.appendDigit('9'); },
+  appendZero() { this.appendDigit('0'); },
+
+  removeDigit() {
+    if (this.editorCode.length > 0) {
+      this.editorCode = this.editorCode.substring(0, this.editorCode.length - 1);
+    }
   },
 
   goBack() {

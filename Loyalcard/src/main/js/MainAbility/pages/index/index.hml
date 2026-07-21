@@ -32,9 +32,31 @@
   <div if="{{ viewMode === 'addFormat' }}" class="screen">
     <text class="back" onclick="cancelAdd">Back</text>
     <text class="choice-title">Add card</text>
-    <div class="format-choice">
+    <div class="format-choice" onclick="chooseEan">
       <text class="format-badge blue">EAN</text>
       <text class="format-name">EAN-13 barcode</text>
+    </div>
+  </div>
+
+  <div if="{{ viewMode === 'editor' }}" class="screen">
+    <text class="back editor-back" onclick="cancelEditor">Back</text>
+    <text class="editor-title">New EAN card</text>
+    <div class="code-input-box">
+      <text class="code-input">{{ editorCode }}</text>
+    </div>
+    <div class="keypad">
+      <div class="keypad-key" onclick="appendOne"><text class="keypad-text">1</text></div>
+      <div class="keypad-key" onclick="appendTwo"><text class="keypad-text">2</text></div>
+      <div class="keypad-key" onclick="appendThree"><text class="keypad-text">3</text></div>
+      <div class="keypad-key" onclick="appendFour"><text class="keypad-text">4</text></div>
+      <div class="keypad-key" onclick="appendFive"><text class="keypad-text">5</text></div>
+      <div class="keypad-key" onclick="appendSix"><text class="keypad-text">6</text></div>
+      <div class="keypad-key" onclick="appendSeven"><text class="keypad-text">7</text></div>
+      <div class="keypad-key" onclick="appendEight"><text class="keypad-text">8</text></div>
+      <div class="keypad-key" onclick="appendNine"><text class="keypad-text">9</text></div>
+      <div class="keypad-key keypad-secondary" onclick="removeDigit"><text class="keypad-small-text">DEL</text></div>
+      <div class="keypad-key" onclick="appendZero"><text class="keypad-text">0</text></div>
+      <div class="keypad-key keypad-disabled"><text class="keypad-small-text">OK</text></div>
     </div>
   </div>
 
