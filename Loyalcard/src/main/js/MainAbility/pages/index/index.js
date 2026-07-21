@@ -173,20 +173,8 @@ export default {
     return getCardFormatLabel(format);
   },
 
-  openLidl() {
-    this.openCard('lidl');
-  },
-
-  openTesco() {
-    this.openCard('tesco');
-  },
-
   openKaufland() {
     this.openCard('kaufland');
-  },
-
-  openBilla() {
-    this.openCard('billa');
   },
 
   openCustomEan() {

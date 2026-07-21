@@ -9,30 +9,9 @@
       </list-item>
 
       <list-item class="card-list-item">
-        <div class="card list-card" onclick="openLidl">
-          <text class="badge yellow">L</text>
-          <text class="name">Lidl Plus</text>
-        </div>
-      </list-item>
-
-      <list-item class="card-list-item">
-        <div class="card list-card" onclick="openTesco">
-          <text class="badge blue">T</text>
-          <text class="name">Tesco Clubcard</text>
-        </div>
-      </list-item>
-
-      <list-item class="card-list-item">
         <div class="card list-card" onclick="openKaufland">
           <text class="badge orange">K</text>
           <text class="name">Kaufland Card</text>
-        </div>
-      </list-item>
-
-      <list-item class="card-list-item">
-        <div class="card list-card" onclick="openBilla">
-          <text class="badge red">B</text>
-          <text class="name">BILLA Bonus</text>
         </div>
       </list-item>
 
@@ -164,7 +143,6 @@
           <div if="{{ $item.type === 'light' }}" class="barcode-module-light"></div>
         </div>
       </div>
-      <image if="{{ selectedId === 'lidl' && hasQrImage }}" class="qr-image" src="/common/qr_lidl.png"></image>
       <image if="{{ selectedId === 'kaufland' && hasQrImage }}" class="qr-image" src="/common/qr_kaufland.png"></image>
       <qrcode if="{{ hasNativeQr }}" class="detail-native-qr" value="{{ selectedCode }}" type="rect"></qrcode>
       <text if="{{ !hasBarcode && !hasQrImage && !hasNativeQr }}" class="code-placeholder">{{ codePlaceholder }}</text>
@@ -191,7 +169,6 @@
           <div if="{{ $item.type === 'light' }}" class="scan-barcode-module-light"></div>
         </div>
       </div>
-      <image if="{{ selectedId === 'lidl' && hasQrImage }}" class="scan-qr-image" src="/common/qr_lidl.png"></image>
       <image if="{{ selectedId === 'kaufland' && hasQrImage }}" class="scan-qr-image" src="/common/qr_kaufland.png"></image>
       <qrcode if="{{ hasNativeQr }}" class="scan-native-qr" value="{{ selectedCode }}" type="rect"></qrcode>
       <text if="{{ !hasBarcode && !hasQrImage && !hasNativeQr }}" class="code-placeholder">{{ codePlaceholder }}</text>

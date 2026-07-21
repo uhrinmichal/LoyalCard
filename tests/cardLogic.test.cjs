@@ -106,7 +106,7 @@ test('custom cards use native QR and wearable storage', () => {
   assert.match(indexJs, /key: 'custom_qr_2_name'/);
 });
 
-test('all four default cards provide their expected code source', () => {
+test('default cards provide their expected code source', () => {
   for (let card of defaultCards) {
     if (card.format === 'ean13') {
       assert.equal(createBarcodeBars(card.format, card.code).length, 95, card.id);

@@ -8,7 +8,7 @@ Loyalty cards application for Huawei Lite Wearable devices.
 - Custom cards restored from wearable system storage
 - Native QR rendering and EAN-13 barcode rendering with fullscreen scan mode
 - QR demo cards rendered from local image assets
-- Demo cards for Lidl, Tesco, Kaufland, and BILLA
+- Demo Kaufland QR card
 
 ## Supported input
 
