@@ -1,4 +1,5 @@
 import cards from '../../common/cards.js';
+import storage from '@system.storage';
 import cardLookup from '../../common/cardLookup.js';
 import createBarcodeBars from '../../common/barcodeRenderer.js';
 import getCardFormatLabel from '../../common/cardFormats.js';
@@ -22,6 +23,19 @@ export default {
     editorCanSave: false,
     customEanVisible: false,
     customEanCode: ''
+  },
+
+  onInit() {
+    let page = this;
+    storage.get({
+      key: 'custom_ean_code',
+      success: function(data) {
+        if (typeof data === 'string' && isEan13Code(data)) {
+          page.customEanCode = data;
+          page.customEanVisible = true;
+        }
+      }
+    });
   },
 
   openCard(cardId) {
@@ -150,6 +164,10 @@ export default {
 
     this.customEanCode = this.editorCode;
     this.customEanVisible = true;
+    storage.set({
+      key: 'custom_ean_code',
+      value: this.customEanCode
+    });
     this.editorCode = '';
     this.updateEditorState();
     this.viewMode = 'list';
