@@ -23,6 +23,11 @@
       <text class="name">BILLA Bonus</text>
     </div>
 
+    <div if="{{ customEanVisible }}" class="card" onclick="openCustomEan">
+      <text class="badge blue">E</text>
+      <text class="name">EAN Card 1</text>
+    </div>
+
     <div class="card add-card" onclick="startAdd">
       <text class="add-symbol">+</text>
       <text class="name">Add card</text>

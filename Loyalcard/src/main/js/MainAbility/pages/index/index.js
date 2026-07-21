@@ -19,7 +19,9 @@ export default {
     cards: cards,
     editorCode: '',
     editorMessage: 'Enter 12 or 13 digits',
-    editorCanSave: false
+    editorCanSave: false,
+    customEanVisible: false,
+    customEanCode: ''
   },
 
   openCard(cardId) {
@@ -57,6 +59,19 @@ export default {
 
   openBilla() {
     this.openCard('billa');
+  },
+
+  openCustomEan() {
+    this.selectedName = 'EAN Card 1';
+    this.selectedType = getCardFormatLabel('ean13');
+    this.selectedCode = this.customEanCode;
+    this.selectedId = 'custom-ean-1';
+    this.codePlaceholder = 'CODE';
+    this.barcodeBars = createBarcodeBars('ean13', this.customEanCode);
+    this.hasBarcode = this.barcodeBars.length > 0;
+    this.hasQrImage = false;
+    this.isScanMode = false;
+    this.viewMode = 'detail';
   },
 
   toggleScanMode() {
@@ -129,6 +144,15 @@ export default {
       this.editorCode = this.editorCode + calculateEan13CheckDigit(this.editorCode);
     }
     this.updateEditorState();
+    if (!this.editorCanSave) {
+      return;
+    }
+
+    this.customEanCode = this.editorCode;
+    this.customEanVisible = true;
+    this.editorCode = '';
+    this.updateEditorState();
+    this.viewMode = 'list';
   },
 
   goBack() {
