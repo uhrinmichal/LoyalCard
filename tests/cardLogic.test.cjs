@@ -99,6 +99,8 @@ test('custom cards use native QR and wearable storage', () => {
   assert.match(indexJs, /key: 'custom_ean_code'/);
   assert.match(indexJs, /key: 'custom_qr_code'/);
   assert.match(indexJs, /key: 'custom_ean_name'/);
+  assert.match(indexJs, /key: 'custom_ean_2_code'/);
+  assert.match(indexJs, /key: 'custom_ean_2_name'/);
   assert.match(indexJs, /key: 'custom_qr_name'/);
 });
 

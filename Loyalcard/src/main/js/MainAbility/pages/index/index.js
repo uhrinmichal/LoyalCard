@@ -52,6 +52,11 @@ export default {
     customEanVisible: false,
     customEanCode: '',
     customEanName: 'EAN Card 1',
+    customEan2Visible: false,
+    customEan2Code: '',
+    customEan2Name: 'EAN Card 2',
+    activeEanSlot: 1,
+    targetEanSlot: 1,
     customQrVisible: false,
     customQrCode: '',
     customQrName: 'QR Card 1',
@@ -91,6 +96,23 @@ export default {
       success: function(data) {
         if (isValidCardName(data)) {
           page.customQrName = data.trim();
+        }
+      }
+    });
+    storage.get({
+      key: 'custom_ean_2_code',
+      success: function(data) {
+        if (typeof data === 'string' && isEan13Code(data)) {
+          page.customEan2Code = data;
+          page.customEan2Visible = true;
+        }
+      }
+    });
+    storage.get({
+      key: 'custom_ean_2_name',
+      success: function(data) {
+        if (isValidCardName(data)) {
+          page.customEan2Name = data.trim();
         }
       }
     });
@@ -137,6 +159,7 @@ export default {
   },
 
   openCustomEan() {
+    this.activeEanSlot = 1;
     this.selectedName = this.customEanName;
     this.selectedType = getCardFormatLabel('ean13');
     this.selectedCode = this.customEanCode;
@@ -150,6 +173,31 @@ export default {
     this.isCustomQr = false;
     this.isScanMode = false;
     this.viewMode = 'detail';
+  },
+
+  openCustomEan2() {
+    this.activeEanSlot = 2;
+    this.selectedName = this.customEan2Name;
+    this.selectedType = getCardFormatLabel('ean13');
+    this.selectedCode = this.customEan2Code;
+    this.selectedId = 'custom-ean-2';
+    this.codePlaceholder = 'CODE';
+    this.barcodeBars = createBarcodeBars('ean13', this.customEan2Code);
+    this.hasBarcode = this.barcodeBars.length > 0;
+    this.hasQrImage = false;
+    this.hasNativeQr = false;
+    this.isCustomEan = true;
+    this.isCustomQr = false;
+    this.isScanMode = false;
+    this.viewMode = 'detail';
+  },
+
+  openActiveCustomEan() {
+    if (this.activeEanSlot === 2) {
+      this.openCustomEan2();
+    } else {
+      this.openCustomEan();
+    }
   },
 
   openCustomQr() {
@@ -184,6 +232,8 @@ export default {
     this.editingCustomEan = false;
     this.editingCustomQr = false;
     this.editorFormat = 'ean13';
+    this.targetEanSlot = this.customEanVisible ? 2 : 1;
+    this.activeEanSlot = this.targetEanSlot;
     this.editorCode = '';
     this.startNameEditor('', 'Name EAN card');
   },
@@ -253,7 +303,7 @@ export default {
   cancelNameEditor() {
     if (this.editingCustomEan) {
       this.editingCustomEan = false;
-      this.openCustomEan();
+      this.openActiveCustomEan();
       return;
     }
     if (this.editingCustomQr) {
@@ -270,7 +320,7 @@ export default {
     }
     this.editorName = this.editorName.trim();
     if (this.editingCustomEan) {
-      this.editorCode = this.customEanCode;
+      this.editorCode = this.targetEanSlot === 2 ? this.customEan2Code : this.customEanCode;
     } else if (this.editingCustomQr) {
       this.editorCode = this.customQrCode;
     }
@@ -293,8 +343,12 @@ export default {
     this.editingCustomEan = true;
     this.editingCustomQr = false;
     this.editorFormat = 'ean13';
-    this.editorCode = this.customEanCode;
-    this.startNameEditor(this.customEanName, 'Edit card name');
+    this.targetEanSlot = this.activeEanSlot;
+    this.editorCode = this.targetEanSlot === 2 ? this.customEan2Code : this.customEanCode;
+    this.startNameEditor(
+      this.targetEanSlot === 2 ? this.customEan2Name : this.customEanName,
+      'Edit card name'
+    );
   },
 
   startEditCustomQr() {
@@ -314,11 +368,19 @@ export default {
   },
 
   confirmDeleteCustomEan() {
-    storage.delete({ key: 'custom_ean_code' });
-    storage.delete({ key: 'custom_ean_name' });
-    this.customEanCode = '';
-    this.customEanName = 'EAN Card 1';
-    this.customEanVisible = false;
+    if (this.activeEanSlot === 2) {
+      storage.delete({ key: 'custom_ean_2_code' });
+      storage.delete({ key: 'custom_ean_2_name' });
+      this.customEan2Code = '';
+      this.customEan2Name = 'EAN Card 2';
+      this.customEan2Visible = false;
+    } else {
+      storage.delete({ key: 'custom_ean_code' });
+      storage.delete({ key: 'custom_ean_name' });
+      this.customEanCode = '';
+      this.customEanName = 'EAN Card 1';
+      this.customEanVisible = false;
+    }
     this.isCustomEan = false;
     this.goBack();
   },
@@ -400,22 +462,24 @@ export default {
       return;
     }
 
-    this.customEanCode = this.editorCode;
-    this.customEanName = this.editorName;
-    this.customEanVisible = true;
-    storage.set({
-      key: 'custom_ean_code',
-      value: this.customEanCode
-    });
-    storage.set({
-      key: 'custom_ean_name',
-      value: this.customEanName
-    });
+    if (this.targetEanSlot === 2) {
+      this.customEan2Code = this.editorCode;
+      this.customEan2Name = this.editorName;
+      this.customEan2Visible = true;
+      storage.set({ key: 'custom_ean_2_code', value: this.customEan2Code });
+      storage.set({ key: 'custom_ean_2_name', value: this.customEan2Name });
+    } else {
+      this.customEanCode = this.editorCode;
+      this.customEanName = this.editorName;
+      this.customEanVisible = true;
+      storage.set({ key: 'custom_ean_code', value: this.customEanCode });
+      storage.set({ key: 'custom_ean_name', value: this.customEanName });
+    }
     this.editorCode = '';
     this.updateEditorState();
     this.editingCustomEan = false;
     if (wasEditing) {
-      this.openCustomEan();
+      this.openActiveCustomEan();
     } else {
       this.viewMode = 'list';
     }

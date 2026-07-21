@@ -43,6 +43,13 @@
         </div>
       </list-item>
 
+      <list-item if="{{ customEan2Visible }}" class="card-list-item">
+        <div class="card list-card" onclick="openCustomEan2">
+          <text class="badge blue">E</text>
+          <text class="name">{{ customEan2Name }}</text>
+        </div>
+      </list-item>
+
       <list-item if="{{ customQrVisible }}" class="card-list-item">
         <div class="card list-card" onclick="openCustomQr">
           <text class="badge green">Q</text>
@@ -64,14 +71,15 @@
   <div if="{{ viewMode === 'addFormat' }}" class="screen">
     <text class="back" onclick="cancelAdd">Back</text>
     <text class="choice-title">Add card</text>
-    <div class="format-choice" onclick="chooseEan">
+    <div if="{{ !customEanVisible || !customEan2Visible }}" class="format-choice" onclick="chooseEan">
       <text class="format-badge blue">EAN</text>
       <text class="format-name">EAN-13 barcode</text>
     </div>
-    <div class="format-choice qr-test-choice" onclick="chooseQr">
+    <div if="{{ !customQrVisible }}" class="format-choice qr-test-choice" onclick="chooseQr">
       <text class="format-badge green">QR</text>
       <text class="format-name">QR code</text>
     </div>
+    <text if="{{ customEanVisible && customEan2Visible && customQrVisible }}" class="editor-message">No free card slots</text>
   </div>
 
   <div if="{{ viewMode === 'nameEditor' }}" class="screen">
@@ -204,8 +212,8 @@
   </div>
 
   <div if="{{ viewMode === 'deleteConfirm' }}" class="screen">
-    <text class="confirm-title">Delete {{ customEanName }}?</text>
-    <text class="confirm-code">{{ customEanCode }}</text>
+    <text class="confirm-title">Delete {{ selectedName }}?</text>
+    <text class="confirm-code">{{ selectedCode }}</text>
     <div class="confirm-actions">
       <text class="confirm-button" onclick="cancelDeleteCustomEan">Cancel</text>
       <text class="confirm-button confirm-delete" onclick="confirmDeleteCustomEan">Delete</text>
