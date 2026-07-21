@@ -59,9 +59,11 @@ function cloneCard(card) {
 }
 
 function cloneCards(cards) {
-  return cards.map(function(card) {
-    return cloneCard(card);
-  });
+  let clonedCards = [];
+  for (let index = 0; index < cards.length; index++) {
+    clonedCards.push(cloneCard(cards[index]));
+  }
+  return clonedCards;
 }
 
 function findCardById(cards, cardId) {
@@ -101,21 +103,25 @@ function createCard(cards, format, code) {
 }
 
 function updateCardCode(cards, cardId, code) {
-  return cards.map(function(card) {
-    let updatedCard = cloneCard(card);
-    if (card.id === cardId) {
+  let updatedCards = [];
+  for (let index = 0; index < cards.length; index++) {
+    let updatedCard = cloneCard(cards[index]);
+    if (cards[index].id === cardId) {
       updatedCard.code = code;
     }
-    return updatedCard;
-  });
+    updatedCards.push(updatedCard);
+  }
+  return updatedCards;
 }
 
 function removeCard(cards, cardId) {
-  return cards.filter(function(card) {
-    return card.id !== cardId;
-  }).map(function(card) {
-    return cloneCard(card);
-  });
+  let remainingCards = [];
+  for (let index = 0; index < cards.length; index++) {
+    if (cards[index].id !== cardId) {
+      remainingCards.push(cloneCard(cards[index]));
+    }
+  }
+  return remainingCards;
 }
 
 function restoreCards(serializedCards, fallbackCards) {
@@ -125,7 +131,7 @@ function restoreCards(serializedCards, fallbackCards) {
 
   try {
     let parsedCards = JSON.parse(serializedCards);
-    if (!Array.isArray(parsedCards)) {
+    if (!parsedCards || typeof parsedCards.length !== 'number') {
       return cloneCards(fallbackCards);
     }
 
