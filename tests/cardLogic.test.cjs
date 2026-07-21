@@ -104,6 +104,8 @@ test('custom cards use native QR and wearable storage', () => {
   assert.match(indexJs, /key: 'custom_qr_name'/);
   assert.match(indexJs, /key: 'custom_qr_2_code'/);
   assert.match(indexJs, /key: 'custom_qr_2_name'/);
+  assert.match(indexJs, /key: 'custom_cards_v2'/);
+  assert.match(indexJs, /slot <= 10/);
 });
 
 test('default cards provide their expected code source', () => {

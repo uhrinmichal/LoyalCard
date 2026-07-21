@@ -37,15 +37,15 @@
   <div if="{{ viewMode === 'addFormat' }}" class="screen">
     <text class="back" onclick="cancelAdd">Back</text>
     <text class="choice-title">Add card</text>
-    <div if="{{ !customEanVisible || !customEan2Visible }}" class="format-choice" onclick="chooseEan">
+    <div if="{{ hasFreeCustomSlot }}" class="format-choice" onclick="chooseEan">
       <text class="format-badge blue">EAN</text>
       <text class="format-name">EAN-13 barcode</text>
     </div>
-    <div if="{{ !customQrVisible || !customQr2Visible }}" class="format-choice qr-test-choice" onclick="chooseQr">
+    <div if="{{ hasFreeCustomSlot }}" class="format-choice qr-test-choice" onclick="chooseQr">
       <text class="format-badge green">QR</text>
       <text class="format-name">QR code</text>
     </div>
-    <text if="{{ customEanVisible && customEan2Visible && customQrVisible && customQr2Visible }}" class="editor-message">No free card slots</text>
+    <text if="{{ !hasFreeCustomSlot }}" class="editor-message">No free card slots</text>
   </div>
 
   <div if="{{ viewMode === 'nameEditor' }}" class="screen">
