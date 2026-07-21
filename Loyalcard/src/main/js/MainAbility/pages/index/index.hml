@@ -50,7 +50,7 @@
         </div>
       </list-item>
 
-      <list-item if="{{ !customEanVisible || !customQrVisible }}" class="card-list-item">
+      <list-item class="card-list-item">
         <div class="card list-card add-card" onclick="startAdd">
           <text class="add-symbol">+</text>
           <text class="name">Add card</text>
