@@ -287,6 +287,13 @@
   height: 140px;
 }
 
+.detail-native-qr {
+  width: 140px;
+  height: 140px;
+  color: #000000;
+  background-color: #ffffff;
+}
+
 .code-placeholder {
   color: #000000;
   font-size: 30px;
@@ -402,4 +409,11 @@
 .scan-qr-image {
   width: 210px;
   height: 210px;
+}
+
+.scan-native-qr {
+  width: 208px;
+  height: 208px;
+  color: #000000;
+  background-color: #ffffff;
 }

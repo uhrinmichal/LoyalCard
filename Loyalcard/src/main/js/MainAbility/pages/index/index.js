@@ -16,6 +16,7 @@ export default {
     hasBarcode: false,
     barcodeBars: [],
     hasQrImage: false,
+    hasNativeQr: false,
     isScanMode: false,
     cards: cards,
     editorCode: '',
@@ -27,7 +28,10 @@ export default {
     editingCustomEan: false,
     isCustomEan: false,
     customEanVisible: false,
-    customEanCode: ''
+    customEanCode: '',
+    customQrVisible: false,
+    customQrCode: '',
+    isCustomQr: false
   },
 
   onInit() {
@@ -55,7 +59,9 @@ export default {
       this.barcodeBars = createBarcodeBars(selectedCard.format, selectedCard.code);
       this.hasBarcode = this.barcodeBars.length > 0;
       this.hasQrImage = cardLookup.hasQrAsset(selectedCard);
+      this.hasNativeQr = false;
       this.isCustomEan = false;
+      this.isCustomQr = false;
       this.isScanMode = false;
       this.viewMode = 'detail';
     }
@@ -90,7 +96,25 @@ export default {
     this.barcodeBars = createBarcodeBars('ean13', this.customEanCode);
     this.hasBarcode = this.barcodeBars.length > 0;
     this.hasQrImage = false;
+    this.hasNativeQr = false;
     this.isCustomEan = true;
+    this.isCustomQr = false;
+    this.isScanMode = false;
+    this.viewMode = 'detail';
+  },
+
+  openCustomQr() {
+    this.selectedName = 'QR Card 1';
+    this.selectedType = getCardFormatLabel('qr');
+    this.selectedCode = this.customQrCode;
+    this.selectedId = 'custom-qr-1';
+    this.codePlaceholder = 'QR';
+    this.barcodeBars = [];
+    this.hasBarcode = false;
+    this.hasQrImage = false;
+    this.hasNativeQr = true;
+    this.isCustomEan = false;
+    this.isCustomQr = true;
     this.isScanMode = false;
     this.viewMode = 'detail';
   },
@@ -247,7 +271,11 @@ export default {
         return;
       }
       this.qrPreviewCode = this.editorCode;
-      this.viewMode = 'qrPreview';
+      this.customQrCode = this.editorCode;
+      this.customQrVisible = true;
+      this.editorCode = '';
+      this.updateEditorState();
+      this.viewMode = 'list';
       return;
     }
     this.confirmEan();
@@ -263,7 +291,9 @@ export default {
     this.hasBarcode = false;
     this.barcodeBars = [];
     this.hasQrImage = false;
+    this.hasNativeQr = false;
     this.isCustomEan = false;
+    this.isCustomQr = false;
     this.isScanMode = false;
   }
 }
