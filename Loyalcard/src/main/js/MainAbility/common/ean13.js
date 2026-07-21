@@ -197,3 +197,8 @@ function encodeEan13(code) {
 }
 
 export default encodeEan13;
+
+export {
+  calculateEan13CheckDigit,
+  isEan13Code
+};

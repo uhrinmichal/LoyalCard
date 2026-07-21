@@ -31,8 +31,7 @@
     "js": [
       {
         "pages": [
-          "pages/index/index",
-          "pages/detail/detail"
+          "pages/index/index"
         ],
         "name": ".MainAbility"
       }

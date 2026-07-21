@@ -1,36 +1,66 @@
 <div class="container">
-  <text if="{{ !isScanMode }}" class="back" onclick="goBack">Back</text>
+  <div if="{{ !isScanMode && !confirmDelete }}" class="detail-screen">
+    <text class="back" onclick="goBack">Back</text>
+    <text class="title">{{ cardName }}</text>
+    <text class="type">{{ cardType }}</text>
 
-  <text if="{{ !isScanMode }}" class="title">{{ cardName }}</text>
-  <text if="{{ !isScanMode }}" class="type">{{ cardType }}</text>
-
-  <div if="{{ !isScanMode }}" class="barcode" onclick="toggleScanMode">
-    <div if="{{ hasBarcode }}" class="barcode-render">
-      <div for="{{ barcodeBars }}" tid="id" class="barcode-module-slot">
-        <div if="{{ $item.type === 'darkGuard' }}" class="barcode-module-dark-guard"></div>
-        <div if="{{ $item.type === 'dark' }}" class="barcode-module-dark"></div>
-        <div if="{{ $item.type === 'lightGuard' }}" class="barcode-module-light-guard"></div>
-        <div if="{{ $item.type === 'light' }}" class="barcode-module-light"></div>
+    <div class="barcode" onclick="toggleScanMode">
+      <div if="{{ hasBarcode }}" class="barcode-render">
+        <div for="{{ barcodeBars }}" tid="id" class="barcode-module-slot">
+          <div if="{{ $item.type === 'darkGuard' }}" class="barcode-module-dark-guard"></div>
+          <div if="{{ $item.type === 'dark' }}" class="barcode-module-dark"></div>
+          <div if="{{ $item.type === 'lightGuard' }}" class="barcode-module-light-guard"></div>
+          <div if="{{ $item.type === 'light' }}" class="barcode-module-light"></div>
+        </div>
+      </div>
+      <image if="{{ cardId === 'lidl' && hasQrImage }}" class="qr-image" src="/common/qr_lidl.png"></image>
+      <image if="{{ cardId === 'kaufland' && hasQrImage }}" class="qr-image" src="/common/qr_kaufland.png"></image>
+      <div if="{{ hasQrCode }}" class="qr-quiet" style="width: {{ qrOuterSize }}px; height: {{ qrOuterSize }}px;">
+        <div class="qr-matrix" style="width: {{ qrContentSize }}px; height: {{ qrContentSize }}px;">
+          <div for="{{ module in qrModules }}" tid="id" class="qr-module-slot" style="width: {{ qrModuleSize }}px; height: {{ qrModuleSize }}px;">
+            <div if="{{ module.dark }}" class="qr-module-dark"></div>
+            <div if="{{ !module.dark }}" class="qr-module-light"></div>
+          </div>
+        </div>
       </div>
     </div>
-    <image if="{{ cardId === 'lidl' && hasQrImage }}" class="qr-image" src="/common/qr_lidl.png"></image>
-    <image if="{{ cardId === 'kaufland' && hasQrImage }}" class="qr-image" src="/common/qr_kaufland.png"></image>
-    <text if="{{ !hasBarcode && !hasQrImage }}" class="code-placeholder">{{ codePlaceholder }}</text>
+
+    <text class="number">{{ cardCode }}</text>
+    <div class="detail-actions">
+      <text class="detail-action" onclick="startEdit">Edit</text>
+      <text class="detail-action delete-action" onclick="requestDelete">Delete</text>
+    </div>
   </div>
 
-  <text if="{{ !isScanMode }}" class="number">{{ cardCode }}</text>
-
-  <div if="{{ isScanMode }}" class="scan-code-box" onclick="toggleScanMode">
-    <div if="{{ hasBarcode }}" class="scan-barcode-render">
-      <div for="{{ barcodeBars }}" tid="id" class="scan-barcode-module-slot">
-        <div if="{{ $item.type === 'darkGuard' }}" class="scan-barcode-module-dark-guard"></div>
-        <div if="{{ $item.type === 'dark' }}" class="scan-barcode-module-dark"></div>
-        <div if="{{ $item.type === 'lightGuard' }}" class="scan-barcode-module-light-guard"></div>
-        <div if="{{ $item.type === 'light' }}" class="scan-barcode-module-light"></div>
+  <div if="{{ isScanMode }}" class="scan-screen">
+    <div class="scan-code-box" onclick="toggleScanMode">
+      <div if="{{ hasBarcode }}" class="scan-barcode-render">
+        <div for="{{ barcodeBars }}" tid="id" class="scan-barcode-module-slot">
+          <div if="{{ $item.type === 'darkGuard' }}" class="scan-barcode-module-dark-guard"></div>
+          <div if="{{ $item.type === 'dark' }}" class="scan-barcode-module-dark"></div>
+          <div if="{{ $item.type === 'lightGuard' }}" class="scan-barcode-module-light-guard"></div>
+          <div if="{{ $item.type === 'light' }}" class="scan-barcode-module-light"></div>
+        </div>
+      </div>
+      <image if="{{ cardId === 'lidl' && hasQrImage }}" class="scan-qr-image" src="/common/qr_lidl.png"></image>
+      <image if="{{ cardId === 'kaufland' && hasQrImage }}" class="scan-qr-image" src="/common/qr_kaufland.png"></image>
+      <div if="{{ hasQrCode }}" class="qr-quiet" style="width: {{ scanQrOuterSize }}px; height: {{ scanQrOuterSize }}px;">
+        <div class="qr-matrix" style="width: {{ scanQrContentSize }}px; height: {{ scanQrContentSize }}px;">
+          <div for="{{ module in qrModules }}" tid="id" class="qr-module-slot" style="width: {{ scanQrModuleSize }}px; height: {{ scanQrModuleSize }}px;">
+            <div if="{{ module.dark }}" class="qr-module-dark"></div>
+            <div if="{{ !module.dark }}" class="qr-module-light"></div>
+          </div>
+        </div>
       </div>
     </div>
-    <image if="{{ cardId === 'lidl' && hasQrImage }}" class="scan-qr-image" src="/common/qr_lidl.png"></image>
-    <image if="{{ cardId === 'kaufland' && hasQrImage }}" class="scan-qr-image" src="/common/qr_kaufland.png"></image>
-    <text if="{{ !hasBarcode && !hasQrImage }}" class="code-placeholder">{{ codePlaceholder }}</text>
+  </div>
+
+  <div if="{{ confirmDelete }}" class="confirm-screen">
+    <text class="confirm-title">Delete card?</text>
+    <text class="confirm-name">{{ cardName }}</text>
+    <div class="confirm-actions">
+      <text class="confirm-button" onclick="cancelDelete">Cancel</text>
+      <text class="confirm-button confirm-delete" onclick="deleteCard">Delete</text>
+    </div>
   </div>
 </div>
