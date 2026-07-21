@@ -26,6 +26,7 @@ export default {
     editorFormat: 'ean13',
     qrPreviewCode: '',
     editingCustomEan: false,
+    editingCustomQr: false,
     isCustomEan: false,
     customEanVisible: false,
     customEanCode: '',
@@ -133,6 +134,7 @@ export default {
 
   chooseEan() {
     this.editingCustomEan = false;
+    this.editingCustomQr = false;
     this.editorFormat = 'ean13';
     this.editorTitle = 'New EAN card';
     this.editorCode = '';
@@ -142,6 +144,7 @@ export default {
 
   chooseQr() {
     this.editingCustomEan = false;
+    this.editingCustomQr = false;
     this.editorFormat = 'qr';
     this.editorTitle = 'New QR card';
     this.editorCode = '';
@@ -161,6 +164,11 @@ export default {
       this.openCustomEan();
       return;
     }
+    if (this.editingCustomQr) {
+      this.editingCustomQr = false;
+      this.openCustomQr();
+      return;
+    }
     this.editorCode = '';
     this.viewMode = 'addFormat';
   },
@@ -170,6 +178,15 @@ export default {
     this.editorFormat = 'ean13';
     this.editorTitle = 'Edit EAN Card 1';
     this.editorCode = this.customEanCode;
+    this.updateEditorState();
+    this.viewMode = 'editor';
+  },
+
+  startEditCustomQr() {
+    this.editingCustomQr = true;
+    this.editorFormat = 'qr';
+    this.editorTitle = 'Edit QR Card 1';
+    this.editorCode = this.customQrCode;
     this.updateEditorState();
     this.viewMode = 'editor';
   },
@@ -187,6 +204,21 @@ export default {
     this.customEanCode = '';
     this.customEanVisible = false;
     this.isCustomEan = false;
+    this.goBack();
+  },
+
+  requestDeleteCustomQr() {
+    this.viewMode = 'deleteQrConfirm';
+  },
+
+  cancelDeleteCustomQr() {
+    this.viewMode = 'detail';
+  },
+
+  confirmDeleteCustomQr() {
+    this.customQrCode = '';
+    this.customQrVisible = false;
+    this.isCustomQr = false;
     this.goBack();
   },
 
@@ -267,6 +299,7 @@ export default {
 
   confirmEditor() {
     if (this.editorFormat === 'qr') {
+      let wasEditing = this.editingCustomQr;
       if (!this.editorCanSave) {
         return;
       }
@@ -275,7 +308,12 @@ export default {
       this.customQrVisible = true;
       this.editorCode = '';
       this.updateEditorState();
-      this.viewMode = 'list';
+      this.editingCustomQr = false;
+      if (wasEditing) {
+        this.openCustomQr();
+      } else {
+        this.viewMode = 'list';
+      }
       return;
     }
     this.confirmEan();

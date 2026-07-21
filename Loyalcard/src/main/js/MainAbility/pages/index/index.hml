@@ -111,6 +111,10 @@
       <text class="detail-action" onclick="startEditCustomEan">Edit</text>
       <text class="detail-action delete-action" onclick="requestDeleteCustomEan">Delete</text>
     </div>
+    <div if="{{ isCustomQr }}" class="detail-actions">
+      <text class="detail-action" onclick="startEditCustomQr">Edit</text>
+      <text class="detail-action delete-action" onclick="requestDeleteCustomQr">Delete</text>
+    </div>
   </div>
 
   <div if="{{ viewMode === 'detail' && isScanMode }}" class="screen scan-screen">
@@ -136,6 +140,15 @@
     <div class="confirm-actions">
       <text class="confirm-button" onclick="cancelDeleteCustomEan">Cancel</text>
       <text class="confirm-button confirm-delete" onclick="confirmDeleteCustomEan">Delete</text>
+    </div>
+  </div>
+
+  <div if="{{ viewMode === 'deleteQrConfirm' }}" class="screen">
+    <text class="confirm-title">Delete QR Card 1?</text>
+    <text class="confirm-code">{{ customQrCode }}</text>
+    <div class="confirm-actions">
+      <text class="confirm-button" onclick="cancelDeleteCustomQr">Cancel</text>
+      <text class="confirm-button confirm-delete" onclick="confirmDeleteCustomQr">Delete</text>
     </div>
   </div>
 </div>
