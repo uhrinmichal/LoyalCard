@@ -95,7 +95,6 @@
 
 .yellow { background-color: #f5c400; }
 .blue { background-color: #2d8cff; }
-.orange { background-color: #ff9f0a; }
 .red { background-color: #ff3b30; }
 
 .add-card {
@@ -411,11 +410,6 @@
   background-color: #ffffff;
 }
 
-.qr-image {
-  width: 140px;
-  height: 140px;
-}
-
 .detail-native-qr {
   width: 140px;
   height: 140px;
@@ -435,7 +429,7 @@
 }
 
 .detail-actions {
-  width: 180px;
+  width: 260px;
   height: 32px;
   flex-direction: row;
   align-items: center;
@@ -451,6 +445,7 @@
 }
 
 .delete-action { color: #ff453a; }
+.first-action { color: #ffd60a; }
 
 .confirm-title {
   color: #ffffff;
@@ -533,11 +528,6 @@
 .scan-barcode-module-light,
 .scan-barcode-module-light-guard {
   background-color: #ffffff;
-}
-
-.scan-qr-image {
-  width: 210px;
-  height: 210px;
 }
 
 .scan-native-qr {

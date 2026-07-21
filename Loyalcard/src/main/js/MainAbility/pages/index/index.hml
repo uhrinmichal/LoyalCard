@@ -8,13 +8,6 @@
         </div>
       </list-item>
 
-      <list-item class="card-list-item">
-        <div class="card list-card" onclick="openKaufland">
-          <text class="badge orange">K</text>
-          <text class="name">Kaufland Card</text>
-        </div>
-      </list-item>
-
       <list-item for="{{ customCardList }}" tid="slot" class="card-list-item">
         <div class="card list-card" onclick="openCustomCard({{$item.slot}})">
           <text if="{{ $item.format === 'ean13' }}" class="badge blue">E</text>
@@ -143,17 +136,18 @@
           <div if="{{ $item.type === 'light' }}" class="barcode-module-light"></div>
         </div>
       </div>
-      <image if="{{ selectedId === 'kaufland' && hasQrImage }}" class="qr-image" src="/common/qr_kaufland.png"></image>
       <qrcode if="{{ hasNativeQr }}" class="detail-native-qr" value="{{ selectedCode }}" type="rect"></qrcode>
-      <text if="{{ !hasBarcode && !hasQrImage && !hasNativeQr }}" class="code-placeholder">{{ codePlaceholder }}</text>
+      <text if="{{ !hasBarcode && !hasNativeQr }}" class="code-placeholder">{{ codePlaceholder }}</text>
     </div>
 
     <text class="detail-code">{{ selectedCode }}</text>
     <div if="{{ isCustomEan }}" class="detail-actions">
+      <text class="detail-action first-action" onclick="moveSelectedCardFirst">First</text>
       <text class="detail-action" onclick="startEditCustomEan">Edit</text>
       <text class="detail-action delete-action" onclick="requestDeleteCustomEan">Delete</text>
     </div>
     <div if="{{ isCustomQr }}" class="detail-actions">
+      <text class="detail-action first-action" onclick="moveSelectedCardFirst">First</text>
       <text class="detail-action" onclick="startEditCustomQr">Edit</text>
       <text class="detail-action delete-action" onclick="requestDeleteCustomQr">Delete</text>
     </div>
@@ -169,9 +163,8 @@
           <div if="{{ $item.type === 'light' }}" class="scan-barcode-module-light"></div>
         </div>
       </div>
-      <image if="{{ selectedId === 'kaufland' && hasQrImage }}" class="scan-qr-image" src="/common/qr_kaufland.png"></image>
       <qrcode if="{{ hasNativeQr }}" class="scan-native-qr" value="{{ selectedCode }}" type="rect"></qrcode>
-      <text if="{{ !hasBarcode && !hasQrImage && !hasNativeQr }}" class="code-placeholder">{{ codePlaceholder }}</text>
+      <text if="{{ !hasBarcode && !hasNativeQr }}" class="code-placeholder">{{ codePlaceholder }}</text>
     </div>
   </div>
 

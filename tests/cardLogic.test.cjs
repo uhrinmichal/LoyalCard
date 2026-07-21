@@ -27,17 +27,18 @@ function loadEan13() {
   return new Function(source)();
 }
 
-function loadDefaultCards() {
-  let source = readCommonFile('cards.js')
-    .replace('export default cards;', 'return cards;');
-  return new Function(source)();
-}
-
 function loadBarcodeRenderer(encodeEan13) {
   let source = readCommonFile('barcodeRenderer.js')
     .replace("import encodeEan13 from './ean13.js';", '')
     .replace('export default createBarcodeBars;', 'return createBarcodeBars;');
   return new Function('encodeEan13', source)(encodeEan13);
+}
+
+function loadCardCollection() {
+  let source = readCommonFile('cardCollection.js')
+    .replace(/export \{[\s\S]*?\};\s*$/, '')
+    .concat('\nreturn { normalizeCustomCards, findCustomCardBySlot, upsertCustomCardInList, removeCustomCardFromList, moveCustomCardFirst };');
+  return new Function(source)();
 }
 
 function loadInputValidators() {
@@ -53,8 +54,8 @@ function loadInputValidators() {
 }
 
 const ean13 = loadEan13();
-const defaultCards = loadDefaultCards();
 const createBarcodeBars = loadBarcodeRenderer(ean13.encodeEan13);
+const cardCollection = loadCardCollection();
 const inputValidators = loadInputValidators();
 
 test('EAN-13 accepts 12 digits and calculates the check digit', () => {
@@ -106,14 +107,44 @@ test('custom cards use native QR and wearable storage', () => {
   assert.match(indexJs, /key: 'custom_qr_2_name'/);
   assert.match(indexJs, /key: 'custom_cards_v2'/);
   assert.match(indexJs, /slot <= 10/);
+  assert.match(indexJs, /moveSelectedCardFirst/);
 });
 
-test('default cards provide their expected code source', () => {
-  for (let card of defaultCards) {
-    if (card.format === 'ean13') {
-      assert.equal(createBarcodeBars(card.format, card.code).length, 95, card.id);
-    } else {
-      assert.match(card.qrAsset, /^\/common\/qr_.+\.png$/, card.id);
-    }
+test('custom card can move first and stored order survives reload', () => {
+  let cards = [
+    { slot: '1', format: 'ean13', name: 'First', code: '5901234123457' },
+    { slot: '2', format: 'qr', name: 'Second', code: '123' },
+    { slot: '3', format: 'qr', name: 'Third', code: '456' }
+  ];
+  let reordered = cardCollection.moveCustomCardFirst(cards, 3);
+  assert.deepEqual(reordered.map(card => card.slot), ['3', '1', '2']);
+
+  let restored = cardCollection.normalizeCustomCards(JSON.parse(JSON.stringify(reordered)));
+  assert.deepEqual(restored.map(card => card.slot), ['3', '1', '2']);
+});
+
+test('custom card collection adds, edits, deletes and caps ten unique slots', () => {
+  let cards = [];
+  for (let slot = 1; slot <= 11; slot++) {
+    cards = cardCollection.upsertCustomCardInList(cards, slot, 'qr', 'Card ' + slot, String(slot));
   }
+  assert.equal(cards.length, 10);
+
+  cards = cardCollection.upsertCustomCardInList(cards, 5, 'ean13', 'Edited', '5901234123457');
+  assert.equal(cards.length, 10);
+  assert.equal(cardCollection.findCustomCardBySlot(cards, 5).name, 'Edited');
+
+  cards = cardCollection.removeCustomCardFromList(cards, 5);
+  assert.equal(cards.length, 9);
+  assert.equal(cardCollection.findCustomCardBySlot(cards, 5), null);
+});
+
+test('runtime contains only custom cards', () => {
+  let indexHml = fs.readFileSync(path.join(mainAbilityPath, 'pages', 'index', 'index.hml'), 'utf8');
+  let indexJs = fs.readFileSync(path.join(mainAbilityPath, 'pages', 'index', 'index.js'), 'utf8');
+  assert.doesNotMatch(indexHml, /kaufland/i);
+  assert.doesNotMatch(indexJs, /kaufland|openCard\(/i);
+  assert.equal(fs.existsSync(path.join(commonPath, 'cards.js')), false);
+  assert.equal(fs.existsSync(path.join(commonPath, 'cardLookup.js')), false);
+  assert.equal(fs.existsSync(path.join(commonPath, 'qr_kaufland.png')), false);
 });
