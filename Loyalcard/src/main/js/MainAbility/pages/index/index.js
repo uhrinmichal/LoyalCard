@@ -131,6 +131,22 @@ export default {
     this.viewMode = 'editor';
   },
 
+  requestDeleteCustomEan() {
+    this.viewMode = 'deleteConfirm';
+  },
+
+  cancelDeleteCustomEan() {
+    this.viewMode = 'detail';
+  },
+
+  confirmDeleteCustomEan() {
+    storage.delete({ key: 'custom_ean_code' });
+    this.customEanCode = '';
+    this.customEanVisible = false;
+    this.isCustomEan = false;
+    this.goBack();
+  },
+
   appendDigit(digit) {
     if (this.editorCode.length < 13) {
       this.editorCode = this.editorCode + digit;

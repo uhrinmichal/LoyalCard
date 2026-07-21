@@ -88,7 +88,10 @@
     </div>
 
     <text class="detail-code">{{ selectedCode }}</text>
-    <text if="{{ isCustomEan }}" class="detail-action" onclick="startEditCustomEan">Edit</text>
+    <div if="{{ isCustomEan }}" class="detail-actions">
+      <text class="detail-action" onclick="startEditCustomEan">Edit</text>
+      <text class="detail-action delete-action" onclick="requestDeleteCustomEan">Delete</text>
+    </div>
   </div>
 
   <div if="{{ viewMode === 'detail' && isScanMode }}" class="screen scan-screen">
@@ -104,6 +107,15 @@
       <image if="{{ selectedId === 'lidl' && hasQrImage }}" class="scan-qr-image" src="/common/qr_lidl.png"></image>
       <image if="{{ selectedId === 'kaufland' && hasQrImage }}" class="scan-qr-image" src="/common/qr_kaufland.png"></image>
       <text if="{{ !hasBarcode && !hasQrImage }}" class="code-placeholder">{{ codePlaceholder }}</text>
+    </div>
+  </div>
+
+  <div if="{{ viewMode === 'deleteConfirm' }}" class="screen">
+    <text class="confirm-title">Delete EAN Card 1?</text>
+    <text class="confirm-code">{{ customEanCode }}</text>
+    <div class="confirm-actions">
+      <text class="confirm-button" onclick="cancelDeleteCustomEan">Cancel</text>
+      <text class="confirm-button confirm-delete" onclick="confirmDeleteCustomEan">Delete</text>
     </div>
   </div>
 </div>
