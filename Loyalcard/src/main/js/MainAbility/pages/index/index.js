@@ -5,6 +5,19 @@ import createBarcodeBars from '../../common/barcodeRenderer.js';
 import getCardFormatLabel from '../../common/cardFormats.js';
 import { calculateEan13CheckDigit, isEan13Code } from '../../common/ean13.js';
 
+function isNumericQrCode(code) {
+  if (typeof code !== 'string' || code.length < 1 || code.length > 32) {
+    return false;
+  }
+  for (let index = 0; index < code.length; index++) {
+    let digit = code.charAt(index);
+    if (digit < '0' || digit > '9') {
+      return false;
+    }
+  }
+  return true;
+}
+
 export default {
   data: {
     viewMode: 'list',
@@ -43,6 +56,15 @@ export default {
         if (typeof data === 'string' && isEan13Code(data)) {
           page.customEanCode = data;
           page.customEanVisible = true;
+        }
+      }
+    });
+    storage.get({
+      key: 'custom_qr_code',
+      success: function(data) {
+        if (isNumericQrCode(data)) {
+          page.customQrCode = data;
+          page.customQrVisible = true;
         }
       }
     });
@@ -216,6 +238,7 @@ export default {
   },
 
   confirmDeleteCustomQr() {
+    storage.delete({ key: 'custom_qr_code' });
     this.customQrCode = '';
     this.customQrVisible = false;
     this.isCustomQr = false;
@@ -306,6 +329,10 @@ export default {
       this.qrPreviewCode = this.editorCode;
       this.customQrCode = this.editorCode;
       this.customQrVisible = true;
+      storage.set({
+        key: 'custom_qr_code',
+        value: this.customQrCode
+      });
       this.editorCode = '';
       this.updateEditorState();
       this.editingCustomQr = false;
