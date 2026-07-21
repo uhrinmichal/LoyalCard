@@ -74,6 +74,37 @@
   margin-right: 10px;
 }
 
+.choice-title {
+  color: #ffffff;
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+
+.format-choice {
+  width: 280px;
+  height: 64px;
+  border-radius: 8px;
+  background-color: #1c1c1e;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 14px;
+}
+
+.format-badge {
+  width: 46px;
+  height: 32px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
+  margin-right: 12px;
+}
+
+.format-name {
+  color: #ffffff;
+  font-size: 17px;
+}
+
 .detail-screen {
   justify-content: center;
   padding-top: 0;

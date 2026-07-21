@@ -59,6 +59,14 @@ export default {
     this.isScanMode = !this.isScanMode;
   },
 
+  startAdd() {
+    this.viewMode = 'addFormat';
+  },
+
+  cancelAdd() {
+    this.viewMode = 'list';
+  },
+
   goBack() {
     this.viewMode = 'list';
     this.selectedName = '';
