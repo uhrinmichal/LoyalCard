@@ -97,6 +97,13 @@ test('custom cards use native QR and wearable storage', () => {
     'utf8'
   );
   assert.match(indexHml, /<qrcode[^>]+value="\{\{ selectedCode \}\}"/);
+  assert.match(indexHml, /show="\{\{ viewMode === 'detail' \}\}"/);
+  assert.doesNotMatch(indexHml, /if="\{\{ viewMode === 'detail'/);
+  assert.equal((indexHml.match(/<qrcode[^>]+value="\{\{ selectedCode \}\}"/g) || []).length, 1);
+  assert.equal((indexHml.match(/for="\{\{ barcodeBars \}\}"/g) || []).length, 1);
+  assert.match(indexHml, /<list-item[^>]+for="\{\{ customCardList \}\}"[^>]+onclick="openCustomCard\(\{\{\$item\.slot\}\}\)"/);
+  assert.doesNotMatch(indexHml, /for="\{\{ customCardList \}\}"[^>]+tid=/);
+  assert.match(indexHml, /if="\{\{ isSelectedCardFirst \}\}" class="detail-action first-action-disabled"/);
   assert.match(indexJs, /key: 'custom_ean_code'/);
   assert.match(indexJs, /key: 'custom_qr_code'/);
   assert.match(indexJs, /key: 'custom_ean_name'/);
@@ -106,8 +113,14 @@ test('custom cards use native QR and wearable storage', () => {
   assert.match(indexJs, /key: 'custom_qr_2_code'/);
   assert.match(indexJs, /key: 'custom_qr_2_name'/);
   assert.match(indexJs, /key: 'custom_cards_v2'/);
-  assert.match(indexJs, /slot <= 10/);
+  assert.match(indexJs, /slot <= 5/);
   assert.match(indexJs, /moveSelectedCardFirst/);
+  assert.match(indexJs, /if \(this\.viewMode !== 'list'\)/);
+  assert.doesNotMatch(indexJs, /storage\.delete/);
+  assert.match(indexJs, /if \(storageWriteInProgress\)/);
+  assert.match(indexJs, /pendingValue !== writtenValue/);
+  assert.match(indexJs, /goBack\(\) \{\s*this\.viewMode = 'list';\s*\}/);
+  assert.match(indexJs, /if \(!openingSameCard\)/);
 });
 
 test('custom card can move first and stored order survives reload', () => {
@@ -123,19 +136,19 @@ test('custom card can move first and stored order survives reload', () => {
   assert.deepEqual(restored.map(card => card.slot), ['3', '1', '2']);
 });
 
-test('custom card collection adds, edits, deletes and caps ten unique slots', () => {
+test('custom card collection adds, edits, deletes and caps five unique slots', () => {
   let cards = [];
-  for (let slot = 1; slot <= 11; slot++) {
+  for (let slot = 1; slot <= 6; slot++) {
     cards = cardCollection.upsertCustomCardInList(cards, slot, 'qr', 'Card ' + slot, String(slot));
   }
-  assert.equal(cards.length, 10);
+  assert.equal(cards.length, 5);
 
   cards = cardCollection.upsertCustomCardInList(cards, 5, 'ean13', 'Edited', '5901234123457');
-  assert.equal(cards.length, 10);
+  assert.equal(cards.length, 5);
   assert.equal(cardCollection.findCustomCardBySlot(cards, 5).name, 'Edited');
 
   cards = cardCollection.removeCustomCardFromList(cards, 5);
-  assert.equal(cards.length, 9);
+  assert.equal(cards.length, 4);
   assert.equal(cardCollection.findCustomCardBySlot(cards, 5), null);
 });
 

@@ -4,7 +4,7 @@ function normalizeCustomCards(cards) {
     return normalizedCards;
   }
 
-  for (var index = 0; index < cards.length && normalizedCards.length < 10; index++) {
+  for (var index = 0; index < cards.length && normalizedCards.length < 5; index++) {
     var card = cards[index];
     var alreadyAdded = false;
     for (var addedIndex = 0; addedIndex < normalizedCards.length; addedIndex++) {

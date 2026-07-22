@@ -447,6 +447,8 @@
 .delete-action { color: #ff453a; }
 .first-action { color: #ffd60a; }
 
+.first-action-disabled { color: #636366; }
+
 .confirm-title {
   color: #ffffff;
   font-size: 21px;

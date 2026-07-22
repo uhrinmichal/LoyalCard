@@ -1,5 +1,5 @@
 <div class="container">
-  <div if="{{ viewMode === 'list' }}" class="screen list-screen">
+  <div show="{{ viewMode === 'list' }}" class="screen list-screen">
     <list class="card-list">
       <list-item class="list-header">
         <div class="list-header-content">
@@ -8,8 +8,8 @@
         </div>
       </list-item>
 
-      <list-item for="{{ customCardList }}" tid="slot" class="card-list-item">
-        <div class="card list-card" onclick="openCustomCard({{$item.slot}})">
+      <list-item for="{{ customCardList }}" class="card-list-item" onclick="openCustomCard({{$item.slot}})">
+        <div class="card list-card">
           <text if="{{ $item.format === 'ean13' }}" class="badge blue">E</text>
           <text if="{{ $item.format === 'qr' }}" class="badge green">Q</text>
           <text class="name">{{ $item.name }}</text>
@@ -121,50 +121,37 @@
     </div>
   </div>
 
-  <div if="{{ viewMode === 'detail' && !isScanMode }}" class="screen detail-screen">
-    <text class="back" onclick="goBack">Back</text>
+  <div show="{{ viewMode === 'detail' }}" class="screen detail-screen">
+    <text if="{{ !isScanMode }}" class="back" onclick="goBack">Back</text>
 
-    <text class="detail-name">{{ selectedName }}</text>
-    <text class="detail-type">{{ selectedType }}</text>
+    <text if="{{ !isScanMode }}" class="detail-name">{{ selectedName }}</text>
+    <text if="{{ !isScanMode }}" class="detail-type">{{ selectedType }}</text>
 
-    <div class="code-box" onclick="toggleScanMode">
-      <div if="{{ hasBarcode }}" class="barcode-render">
-        <div for="{{ barcodeBars }}" tid="id" class="barcode-module-slot">
-          <div if="{{ $item.type === 'darkGuard' }}" class="barcode-module-dark-guard"></div>
-          <div if="{{ $item.type === 'dark' }}" class="barcode-module-dark"></div>
-          <div if="{{ $item.type === 'lightGuard' }}" class="barcode-module-light-guard"></div>
-          <div if="{{ $item.type === 'light' }}" class="barcode-module-light"></div>
+    <div class="code-box" style="width: {{ isScanMode ? 320 : 292 }}px; height: {{ isScanMode ? 220 : 150 }}px;" onclick="toggleScanMode">
+      <div if="{{ hasBarcode }}" class="barcode-render" style="height: {{ isScanMode ? 150 : 100 }}px;">
+        <div for="{{ barcodeBars }}" tid="id" class="barcode-module-slot" style="height: {{ isScanMode ? 150 : 100 }}px;">
+          <div if="{{ $item.type === 'darkGuard' }}" class="barcode-module-dark-guard" style="height: {{ isScanMode ? 150 : 100 }}px;"></div>
+          <div if="{{ $item.type === 'dark' }}" class="barcode-module-dark" style="height: {{ isScanMode ? 126 : 84 }}px;"></div>
+          <div if="{{ $item.type === 'lightGuard' }}" class="barcode-module-light-guard" style="height: {{ isScanMode ? 150 : 100 }}px;"></div>
+          <div if="{{ $item.type === 'light' }}" class="barcode-module-light" style="height: {{ isScanMode ? 126 : 84 }}px;"></div>
         </div>
       </div>
-      <qrcode if="{{ hasNativeQr }}" class="detail-native-qr" value="{{ selectedCode }}" type="rect"></qrcode>
+      <qrcode if="{{ hasNativeQr }}" class="detail-native-qr" style="width: {{ isScanMode ? 208 : 140 }}px; height: {{ isScanMode ? 208 : 140 }}px;" value="{{ selectedCode }}" type="rect"></qrcode>
       <text if="{{ !hasBarcode && !hasNativeQr }}" class="code-placeholder">{{ codePlaceholder }}</text>
     </div>
 
-    <text class="detail-code">{{ selectedCode }}</text>
-    <div if="{{ isCustomEan }}" class="detail-actions">
-      <text class="detail-action first-action" onclick="moveSelectedCardFirst">First</text>
+    <text if="{{ !isScanMode }}" class="detail-code">{{ selectedCode }}</text>
+    <div if="{{ !isScanMode && isCustomEan }}" class="detail-actions">
+      <text if="{{ !isSelectedCardFirst }}" class="detail-action first-action" onclick="moveSelectedCardFirst">First</text>
+      <text if="{{ isSelectedCardFirst }}" class="detail-action first-action-disabled">First</text>
       <text class="detail-action" onclick="startEditCustomEan">Edit</text>
       <text class="detail-action delete-action" onclick="requestDeleteCustomEan">Delete</text>
     </div>
-    <div if="{{ isCustomQr }}" class="detail-actions">
-      <text class="detail-action first-action" onclick="moveSelectedCardFirst">First</text>
+    <div if="{{ !isScanMode && isCustomQr }}" class="detail-actions">
+      <text if="{{ !isSelectedCardFirst }}" class="detail-action first-action" onclick="moveSelectedCardFirst">First</text>
+      <text if="{{ isSelectedCardFirst }}" class="detail-action first-action-disabled">First</text>
       <text class="detail-action" onclick="startEditCustomQr">Edit</text>
       <text class="detail-action delete-action" onclick="requestDeleteCustomQr">Delete</text>
-    </div>
-  </div>
-
-  <div if="{{ viewMode === 'detail' && isScanMode }}" class="screen scan-screen">
-    <div class="scan-code-box" onclick="toggleScanMode">
-      <div if="{{ hasBarcode }}" class="scan-barcode-render">
-        <div for="{{ barcodeBars }}" tid="id" class="scan-barcode-module-slot">
-          <div if="{{ $item.type === 'darkGuard' }}" class="scan-barcode-module-dark-guard"></div>
-          <div if="{{ $item.type === 'dark' }}" class="scan-barcode-module-dark"></div>
-          <div if="{{ $item.type === 'lightGuard' }}" class="scan-barcode-module-light-guard"></div>
-          <div if="{{ $item.type === 'light' }}" class="scan-barcode-module-light"></div>
-        </div>
-      </div>
-      <qrcode if="{{ hasNativeQr }}" class="scan-native-qr" value="{{ selectedCode }}" type="rect"></qrcode>
-      <text if="{{ !hasBarcode && !hasNativeQr }}" class="code-placeholder">{{ codePlaceholder }}</text>
     </div>
   </div>
 

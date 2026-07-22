@@ -10,6 +10,9 @@ import {
 } from '../../common/cardCollection.js';
 import { calculateEan13CheckDigit, isEan13Code } from '../../common/ean13.js';
 
+let storageWriteInProgress = false;
+let pendingStorageValue = '';
+
 function isNumericQrCode(code) {
   if (typeof code !== 'string' || code.length < 1 || code.length > 32) {
     return false;
@@ -55,6 +58,7 @@ export default {
     editingCustomEan: false,
     editingCustomQr: false,
     isCustomEan: false,
+    isSelectedCardFirst: false,
     customEanVisible: false,
     customEanCode: '',
     customEanName: 'EAN Card 1',
@@ -198,20 +202,29 @@ export default {
   },
 
   openCustomCard(slot) {
+    if (this.viewMode !== 'list') {
+      return;
+    }
     let card = this.findCustomCard(slot);
     if (!card) {
       return;
     }
+    let selectedCardId = 'custom-' + card.slot;
+    let openingSameCard = this.selectedId === selectedCardId && this.selectedCode === card.code;
     this.selectedName = card.name;
     this.selectedType = getCardFormatLabel(card.format);
     this.selectedCode = card.code;
-    this.selectedId = 'custom-' + card.slot;
+    this.selectedId = selectedCardId;
     this.codePlaceholder = card.format === 'qr' ? 'QR' : 'CODE';
-    this.barcodeBars = createBarcodeBars(card.format, card.code);
-    this.hasBarcode = this.barcodeBars.length > 0;
+    if (!openingSameCard) {
+      this.barcodeBars = createBarcodeBars(card.format, card.code);
+      this.hasBarcode = this.barcodeBars.length > 0;
+    }
     this.hasNativeQr = card.format === 'qr';
     this.isCustomEan = card.format === 'ean13';
     this.isCustomQr = card.format === 'qr';
+    this.isSelectedCardFirst = this.customCardList.length > 0 &&
+      String(this.customCardList[0].slot) === String(card.slot);
     if (this.isCustomEan) {
       this.activeEanSlot = Number(card.slot);
     } else {
@@ -226,7 +239,7 @@ export default {
   },
 
   findFirstFreeSlot() {
-    for (let slot = 1; slot <= 10; slot++) {
+    for (let slot = 1; slot <= 5; slot++) {
       if (!this.findCustomCard(slot)) {
         return slot;
       }
@@ -255,22 +268,50 @@ export default {
   },
 
   moveSelectedCardFirst() {
+    if (this.viewMode !== 'detail' || (!this.isCustomEan && !this.isCustomQr)) {
+      return;
+    }
     let activeSlot = this.isCustomEan ? this.activeEanSlot : this.activeQrSlot;
+    if (this.customCardList.length > 0 && String(this.customCardList[0].slot) === String(activeSlot)) {
+      this.goBack();
+      return;
+    }
     this.setCustomCards(moveCustomCardFirst(this.customCardList, activeSlot));
-    this.persistCustomCards();
     this.goBack();
+    this.persistCustomCards();
   },
 
   persistCustomCards() {
-    storage.set({ key: 'custom_cards_v2', value: JSON.stringify(this.customCardList) });
-    storage.delete({ key: 'custom_ean_code' });
-    storage.delete({ key: 'custom_ean_name' });
-    storage.delete({ key: 'custom_ean_2_code' });
-    storage.delete({ key: 'custom_ean_2_name' });
-    storage.delete({ key: 'custom_qr_code' });
-    storage.delete({ key: 'custom_qr_name' });
-    storage.delete({ key: 'custom_qr_2_code' });
-    storage.delete({ key: 'custom_qr_2_name' });
+    let serializedCards = JSON.stringify(this.customCardList);
+    if (storageWriteInProgress) {
+      pendingStorageValue = serializedCards;
+      return;
+    }
+    this.writeCustomCards(serializedCards);
+  },
+
+  writeCustomCards(serializedCards) {
+    let page = this;
+    storageWriteInProgress = true;
+    storage.set({
+      key: 'custom_cards_v2',
+      value: serializedCards,
+      success: function() {
+        page.finishCustomCardsWrite(serializedCards);
+      },
+      fail: function() {
+        page.finishCustomCardsWrite(serializedCards);
+      }
+    });
+  },
+
+  finishCustomCardsWrite(writtenValue) {
+    storageWriteInProgress = false;
+    let pendingValue = pendingStorageValue;
+    pendingStorageValue = '';
+    if (pendingValue && pendingValue !== writtenValue) {
+      this.writeCustomCards(pendingValue);
+    }
   },
 
   restoreSharedCards(serializedCards) {
@@ -283,12 +324,12 @@ export default {
         return;
       }
       let restoredCards = [];
-      for (let index = 0; index < parsedCards.length && restoredCards.length < 10; index++) {
+      for (let index = 0; index < parsedCards.length && restoredCards.length < 5; index++) {
         let card = parsedCards[index];
         let slot = Number(card.slot);
         let validFormat = card.format === 'ean13' || card.format === 'qr';
         let validCode = card.format === 'ean13' ? isEan13Code(card.code) : isNumericQrCode(card.code);
-        if (slot >= 1 && slot <= 10 && validFormat && validCode && isValidCardName(card.name)) {
+        if (slot >= 1 && slot <= 5 && validFormat && validCode && isValidCardName(card.name)) {
           restoredCards.push({
             slot: String(slot),
             format: card.format,
@@ -368,10 +409,16 @@ export default {
   },
 
   toggleScanMode() {
+    if (this.viewMode !== 'detail') {
+      return;
+    }
     this.isScanMode = !this.isScanMode;
   },
 
   startAdd() {
+    if (this.viewMode !== 'list') {
+      return;
+    }
     this.viewMode = 'addFormat';
   },
 
@@ -647,16 +694,5 @@ export default {
 
   goBack() {
     this.viewMode = 'list';
-    this.selectedName = '';
-    this.selectedType = '';
-    this.selectedCode = '';
-    this.selectedId = '';
-    this.codePlaceholder = 'CODE';
-    this.hasBarcode = false;
-    this.barcodeBars = [];
-    this.hasNativeQr = false;
-    this.isCustomEan = false;
-    this.isCustomQr = false;
-    this.isScanMode = false;
   }
 }

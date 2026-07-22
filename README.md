@@ -4,7 +4,7 @@ Loyalty cards application for Huawei Lite Wearable devices.
 ## Features
 
 - Round-display layout optimized for wearable devices
-- Scrollable list with up to 10 custom cards in any QR/EAN combination
+- Scrollable list with up to 5 custom cards in any QR/EAN combination
 - Add, rename, edit, and delete cards directly on the watch
 - Touch A-Z and numeric keypads optimized for the round display
 - Custom cards restored from wearable system storage with legacy migration
