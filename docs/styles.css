@@ -1,0 +1,167 @@
+:root {
+  color-scheme: dark;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #050505;
+  color: #f5f5f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #050505;
+  color: #f5f5f5;
+  line-height: 1.6;
+}
+
+a {
+  color: #39df72;
+}
+
+a:hover,
+a:focus-visible {
+  color: #ffcb19;
+}
+
+header {
+  border-bottom: 1px solid #303030;
+}
+
+.nav,
+main,
+footer {
+  width: min(760px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.nav {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand img {
+  width: 44px;
+  height: 44px;
+}
+
+nav {
+  display: flex;
+  gap: 18px;
+}
+
+nav a {
+  color: #d7d7d7;
+  text-decoration: none;
+}
+
+main {
+  padding: 56px 0 64px;
+}
+
+.intro {
+  padding-bottom: 40px;
+  border-bottom: 4px solid #ff2738;
+}
+
+h1,
+h2 {
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 40px;
+}
+
+h2 {
+  margin: 40px 0 12px;
+  font-size: 24px;
+}
+
+p,
+li {
+  color: #d7d7d7;
+}
+
+.lead {
+  max-width: 620px;
+  margin: 0;
+  font-size: 19px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid #39df72;
+  border-radius: 6px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: #39df72;
+  color: #050505;
+}
+
+.language {
+  margin: 0 0 32px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #303030;
+}
+
+.language a {
+  margin-right: 16px;
+}
+
+.policy-section + .policy-section {
+  margin-top: 72px;
+  padding-top: 56px;
+  border-top: 1px solid #303030;
+}
+
+footer {
+  padding: 24px 0 36px;
+  border-top: 1px solid #303030;
+  color: #929292;
+  font-size: 14px;
+}
+
+@media (max-width: 560px) {
+  .nav {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px 0;
+  }
+
+  main {
+    padding-top: 40px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+}
