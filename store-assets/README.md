@@ -10,6 +10,8 @@ AppGallery release.
 - `store-listing-en.md`: English store listing
 - `privacy-policy-sk.md`: Slovak privacy policy draft
 - `privacy-policy-en.md`: English privacy policy draft
+- `appgallery-submission-v1.3.1.md`: AppGallery form answer sheet
+- `release-checklist-v1.3.1.md`: release readiness checklist
 
 ## Before submission
 
