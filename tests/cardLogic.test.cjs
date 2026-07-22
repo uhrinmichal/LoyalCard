@@ -121,6 +121,9 @@ test('custom cards use native QR and wearable storage', () => {
   assert.match(indexJs, /pendingValue !== writtenValue/);
   assert.match(indexJs, /goBack\(\) \{\s*this\.viewMode = 'list';\s*\}/);
   assert.match(indexJs, /if \(!openingSameCard\)/);
+  assert.match(indexJs, /openCustomCard\(slot\) \{[\s\S]*?this\.showCustomCard\(slot\);\s*\},/);
+  assert.match(indexJs, /if \(wasEditing\) \{\s*this\.showCustomCard\(this\.activeEanSlot\);/);
+  assert.match(indexJs, /if \(wasEditing\) \{\s*this\.showCustomCard\(this\.activeQrSlot\);/);
 });
 
 test('custom card can move first and stored order survives reload', () => {

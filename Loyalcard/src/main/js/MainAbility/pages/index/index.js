@@ -205,6 +205,10 @@ export default {
     if (this.viewMode !== 'list') {
       return;
     }
+    this.showCustomCard(slot);
+  },
+
+  showCustomCard(slot) {
     let card = this.findCustomCard(slot);
     if (!card) {
       return;
@@ -509,12 +513,12 @@ export default {
   cancelNameEditor() {
     if (this.editingCustomEan) {
       this.editingCustomEan = false;
-      this.openCustomCard(this.activeEanSlot);
+      this.showCustomCard(this.activeEanSlot);
       return;
     }
     if (this.editingCustomQr) {
       this.editingCustomQr = false;
-      this.openCustomCard(this.activeQrSlot);
+      this.showCustomCard(this.activeQrSlot);
       return;
     }
     this.viewMode = 'addFormat';
@@ -665,7 +669,7 @@ export default {
     this.updateEditorState();
     this.editingCustomEan = false;
     if (wasEditing) {
-      this.openCustomCard(this.activeEanSlot);
+      this.showCustomCard(this.activeEanSlot);
     } else {
       this.viewMode = 'list';
     }
@@ -683,7 +687,7 @@ export default {
       this.updateEditorState();
       this.editingCustomQr = false;
       if (wasEditing) {
-        this.openCustomCard(this.activeQrSlot);
+        this.showCustomCard(this.activeQrSlot);
       } else {
         this.viewMode = 'list';
       }
