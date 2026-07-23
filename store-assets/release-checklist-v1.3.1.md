@@ -15,7 +15,7 @@
 
 ## Before AppGallery submission
 
-- [ ] Developer identity verification approved
+- [x] Developer identity verification approved
 - [ ] Confirm AppGallery category offered for Lite Wearable apps
 - [ ] Confirm screenshot count, dimensions, and file-size limits in the form
 - [ ] Export screenshots to the dimensions required by the form
